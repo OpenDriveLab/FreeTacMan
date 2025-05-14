@@ -34,6 +34,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 ## 🎥 Demo
 
 ### Policy Rollouts
+(TODO: add video)
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
