@@ -8,11 +8,24 @@ motion control skills to robots efficiently by integrating visual and tactile da
 - [Overview](#overview)
 - [Highlights](#highlights)
 - [Demo](#demo)
+  - [User Study](#user-study)
+  - [Policy Rollouts](#policy-rollouts)
 - [FreeTacMan's Performance](#freetacmans-performance)
+  - [User Study](#user-study-1)
+  - [Policy Rollouts](#policy-rollouts-1)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
     - [Requirements](#requirements)
     - [Clone the Repository](#clone-the-repository)
+    - [Install Dependencies](#install-dependencies)
+  - [Hardware Assembly](#hardware-assembly)
+  - [Data Collection](#data-collection)
+  - [Data Processing](#data-processing)
+  - [Training](#training)
+  - [Inference](#inference)
+- [Citation](#citation)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## ⭐ Overview
 
@@ -61,21 +74,155 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 *Table 3: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
 
-
-
 ## 🎮 Getting Started
-## Installation
 
-### Requirements
+### Installation
+
+#### Requirements
 
 - Python 3.7+
 - PyTorch 1.9+ (or compatible)
 - CUDA 11.0+ (for GPU support)
 - [Other dependencies](requirements.txt)
 
-### Clone the Repository
+#### Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/FreeTacMan.git
 cd FreeTacMan
+```
 
+#### Install Dependencies
+
+```bash
+# Create a new conda environment (recommended)
+conda create -n freetacman python=3.8
+conda activate freetacman
+
+# Install PyTorch (adjust version according to your CUDA version)
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# Install other dependencies
+pip install -r requirements.txt
+```
+
+### Hardware Assembly
+
+1. **Components Required**
+
+   - Tactile sensors (2x)
+   - Camera modules (2x)
+   - Microcontroller board
+   - Power supply
+   - Connecting cables
+   - 3D printed parts
+
+2. **Assembly Steps**
+   ```bash
+   # Download 3D models
+   cd hardware/3d_models
+   
+   # Print the parts using your 3D printer
+   # Follow the assembly guide in hardware/assembly_guide.md
+   ```
+
+3. **Calibration**
+   ```bash
+   # Run the calibration script
+   python scripts/calibrate_sensors.py
+   ```
+
+### Data Collection
+
+1. **Setup Environment**
+   ```bash
+   # Configure the tracking system
+   python scripts/setup_tracking.py
+   
+   # Test the sensors
+   python scripts/test_sensors.py
+   ```
+
+2. **Start Collection**
+   ```bash
+   # Start data collection
+   python scripts/collect_data.py --task [task_name] --output [output_dir]
+   ```
+
+3. **Available Tasks**
+   - Fragile Cup Manipulation
+   - USB Plugging
+   - Texture Classification
+   - Stamp Pressing
+   - Calligraphy Writing
+   - Potato Chip Grasping
+   - Tissue Grasping
+   - Toothpaste Extrusion
+
+### Data Processing
+
+1. **Preprocess Raw Data**
+   ```bash
+   # Process collected data
+   python scripts/process_data.py --input [raw_data_dir] --output [processed_data_dir]
+   ```
+
+2. **Generate Dataset**
+   ```bash
+   # Create training dataset
+   python scripts/create_dataset.py --input [processed_data_dir] --output [dataset_dir]
+   ```
+
+### Training
+
+1. **Pretraining**
+   ```bash
+   # Start pretraining
+   python scripts/train.py --config configs/pretrain.yaml
+   ```
+
+2. **Fine-tuning**
+   ```bash
+   # Fine-tune on specific tasks
+   python scripts/train.py --config configs/finetune.yaml --task [task_name]
+   ```
+
+### Inference
+
+1. **Load Model**
+   ```bash
+   # Load pretrained model
+   python scripts/load_model.py --checkpoint [checkpoint_path]
+   ```
+
+2. **Run Inference**
+   ```bash
+   # Run inference on new data
+   python scripts/inference.py --model [model_path] --input [input_data] --output [output_dir]
+   ```
+
+For more detailed instructions, please refer to our [documentation](docs/).
+
+## 📝 Citation
+
+If you find our work useful in your research, please consider citing our paper:
+
+```bibtex
+@article{wu2024freetacman,
+  title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System},
+  author={Wu, Longyan and Yu, Checheng and Ren, Jieji and Chen, Li and Huang, Ran and Gu, Guoying and Li, Hongyang},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2024}
+}
+```
+
+## 🙏 Acknowledgements
+
+We would like to thank:
+- The authors of [ALOHA](https://github.com/tonyzhaozh/aloha) and [UMI](https://github.com/tonyzhaozh/umi) for their inspiring work
+- All the participants in our user study for their valuable feedback
+- The open-source community for their continuous support
+
+## 📄 License
+
+This project is licensed under the *** License - see the [LICENSE](LICENSE) file for details.
