@@ -33,14 +33,30 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 ## 🎥 Demo
 
-Policy Rollouts
+### Policy Rollouts
 
-User Study
+| Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy |
+|:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
+| [![Fragile Cup](video/policy_rollouts/FragileCupManipulation.mov)](video/policy_rollouts/FragileCupManipulation.mov) | [![USB Plug](video/policy_rollouts/USBPlugging.mov)](video/policy_rollouts/USBPlugging.mov) | [![Texture Classification](video/policy_rollouts/TextureClassification.mp4)](video/policy_rollouts/TextureClassification.mp4) | [![Stamp Press](video/policy_rollouts/StampPressing.mov)](video/policy_rollouts/StampPressing.mov) | [![Calligraphy](video/policy_rollouts/CalligraphyWriting.mp4)](video/policy_rollouts/CalligraphyWriting.mp4) |
+
+### User Study
+
+| Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy | Potato Chip | Tissue | Toothpaste |
+|:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|:-----------:|:------:|:----------:|
+| [![Fragile Cup](video/user_study/FragileCupManipulation.mp4)](video/user_study/FragileCupManipulation.mp4) | [![USB Plug](video/user_study/USBPlugging.mp4)](video/user_study/USBPlugging.mp4) | [![Texture Classification](video/user_study/TextureClassification.mov)](video/user_study/TextureClassification.mov) | [![Stamp Press](video/user_study/StampPressing.mp4)](video/user_study/StampPressing.mp4) | [![Calligraphy](video/user_study/CalligraphyWriting.mov)](video/user_study/CalligraphyWriting.mov) | [![Potato Chip](video/user_study/PotatoChipGrasping.mp4)](video/user_study/PotatoChipGrasping.mp4) | [![Tissue](video/user_study/TissueGrasping.mp4)](video/user_study/TissueGrasping.mp4) | [![Toothpaste](video/user_study/ToothpasteExtrusion.mp4)](video/user_study/ToothpasteExtrusion.mp4) |
 
 ## 🚀 FreeTacMan's Performance
-Policy Rollouts
+### Policy Rollouts
 
-User Study
+| Method | Fragile Cup | USB Plug | Texture Cls. | Stamp Press | Calligraphy | **Avg.** |
+|:-------|:-----------:|:--------:|:------------:|:-----------:|:-----------:|:--------:|
+| ACT (Vision-only) | 35 | 0 | 20 | 20 | 30 | **21** |
+| Ours (+ Tactile w/o Pretraining) | 75 | 10 | 70 | 55 | 65 | **55** |
+| Ours (+ Pretraining) | **80** | **20** | **90** | **85** | **80** | **71** |
+
+*Table 1: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
+
+### User Study
 ![Perfoemance of User Study](figure/userstudy.png)
 ## 🎮 Getting Started
 ## Installation
