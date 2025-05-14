@@ -134,7 +134,6 @@ cd hardware/3d_models
    python scripts/collect_data.py --task [task_name] --output [output_dir]
    ```
 
-
 ### Data Processing
 
 1. **Preprocess Raw Data**
@@ -156,7 +155,6 @@ cd hardware/3d_models
    # Start pretraining
    python scripts/train.py --config configs/pretrain.yaml
    ```
-
 
 ### Inference
 
