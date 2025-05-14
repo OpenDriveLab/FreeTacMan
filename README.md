@@ -33,6 +33,12 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 ## 🎥 Demo
 
+### User Study
+
+ Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy | Potato Chip | Tissue | Toothpaste |
+|:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|:-----------:|:------:|:----------:|
+| <video src="video/user_study/FragileCupManipulation.mp4" width="200" controls></video> | <video src="video/user_study/USBPlugging.mp4" width="200" controls></video> | <video src="video/user_study/TextureClassification.mov" width="200" controls></video> | <video src="video/user_study/StampPressing.mp4" width="200" controls></video> | <video src="video/user_study/CalligraphyWriting.mov" width="200" controls></video> | <video src="video/user_study/PotatoChipGrasping.mp4" width="200" controls></video> | <video src="video/user_study/TissueGrasping.mp4" width="200" controls></video> | <video src="video/user_study/ToothpasteExtrusion.mp4" width="200" controls></video> |
+
 ### Policy Rollouts
 (TODO: add video)
 
@@ -40,15 +46,13 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
 | <video src="video/policy_rollouts/FragileCupManipulation.mov" width="200" controls></video> | <video src="video/policy_rollouts/USBPlugging.mov" width="200" controls></video> | <video src="video/policy_rollouts/TextureClassification.mp4" width="200" controls></video> | <video src="video/policy_rollouts/StampPressing.mov" width="200" controls></video> | <video src="video/policy_rollouts/CalligraphyWriting.mp4" width="200" controls></video> |
 
-### User Study
-
- Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy | Potato Chip | Tissue | Toothpaste |
-|:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|:-----------:|:------:|:----------:|
-| <video src="video/user_study/FragileCupManipulation.mp4" width="200" controls></video> | <video src="video/user_study/USBPlugging.mp4" width="200" controls></video> | <video src="video/user_study/TextureClassification.mov" width="200" controls></video> | <video src="video/user_study/StampPressing.mp4" width="200" controls></video> | <video src="video/user_study/CalligraphyWriting.mov" width="200" controls></video> | <video src="video/user_study/PotatoChipGrasping.mp4" width="200" controls></video> | <video src="video/user_study/TissueGrasping.mp4" width="200" controls></video> | <video src="video/user_study/ToothpasteExtrusion.mp4" width="200" controls></video> |
-
 ## 🚀 FreeTacMan's Performance
-### Policy Rollouts
 
+### User Study
+![Perfoemance of User Study](figure/userstudy.png)
+*Figure 1: User study results comparing FreeTacMan with ALOHA and UMI across different metrics. FreeTacMan demonstrates superior performance in completion rate, collection efficiency, and CPUT score per task, while also excelling in user experience evaluation including control accuracy, ease of collection procedure, and stability.*
+
+### Policy Rollouts
 | Method | Fragile Cup | USB Plug | Texture Cls. | Stamp Press | Calligraphy | **Avg.** |
 |:-------|:-----------:|:--------:|:------------:|:-----------:|:-----------:|:--------:|
 | ACT (Vision-only) | 35 | 0 | 20 | 20 | 30 | **21** |
@@ -57,9 +61,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 *Table 3: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
 
-### User Study
-![Perfoemance of User Study](figure/userstudy.png)
-*Figure 1: User study results comparing FreeTacMan with ALOHA and UMI across different metrics. FreeTacMan demonstrates superior performance in completion rate, collection efficiency, and CPUT score per task, while also excelling in user experience evaluation including control accuracy, ease of collection procedure, and stability.*
+
 
 ## 🎮 Getting Started
 ## Installation
