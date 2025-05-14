@@ -22,7 +22,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🚀 [Demo Page](https://freetacman.github.io) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t)
 
-✒️ Longyan Wu, Checheng Yu, Jieji Ren, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
+✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
 
 📧 Primary Contact: Longyan Wu (im.longyanwu@gmail.com)
 
@@ -37,13 +37,13 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
-| [![Fragile Cup](video/policy_rollouts/FragileCupManipulation.mov)](video/policy_rollouts/FragileCupManipulation.mov) | [![USB Plug](video/policy_rollouts/USBPlugging.mov)](video/policy_rollouts/USBPlugging.mov) | [![Texture Classification](video/policy_rollouts/TextureClassification.mp4)](video/policy_rollouts/TextureClassification.mp4) | [![Stamp Press](video/policy_rollouts/StampPressing.mov)](video/policy_rollouts/StampPressing.mov) | [![Calligraphy](video/policy_rollouts/CalligraphyWriting.mp4)](video/policy_rollouts/CalligraphyWriting.mp4) |
+| [![Fragile Cup](video/thumbnails/FragileCupManipulation.jpg)](video/policy_rollouts/FragileCupManipulation.mov) | [![USB Plug](video/thumbnails/USBPlugging.jpg)](video/policy_rollouts/USBPlugging.mov) | [![Texture Classification](video/thumbnails/TextureClassification.jpg)](video/policy_rollouts/TextureClassification.mp4) | [![Stamp Press](video/thumbnails/StampPressing.jpg)](video/policy_rollouts/StampPressing.mov) | [![Calligraphy](video/thumbnails/CalligraphyWriting.jpg)](video/policy_rollouts/CalligraphyWriting.mp4) |
 
 ### User Study
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy | Potato Chip | Tissue | Toothpaste |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|:-----------:|:------:|:----------:|
-| [![Fragile Cup](video/user_study/FragileCupManipulation.mp4)](video/user_study/FragileCupManipulation.mp4) | [![USB Plug](video/user_study/USBPlugging.mp4)](video/user_study/USBPlugging.mp4) | [![Texture Classification](video/user_study/TextureClassification.mov)](video/user_study/TextureClassification.mov) | [![Stamp Press](video/user_study/StampPressing.mp4)](video/user_study/StampPressing.mp4) | [![Calligraphy](video/user_study/CalligraphyWriting.mov)](video/user_study/CalligraphyWriting.mov) | [![Potato Chip](video/user_study/PotatoChipGrasping.mp4)](video/user_study/PotatoChipGrasping.mp4) | [![Tissue](video/user_study/TissueGrasping.mp4)](video/user_study/TissueGrasping.mp4) | [![Toothpaste](video/user_study/ToothpasteExtrusion.mp4)](video/user_study/ToothpasteExtrusion.mp4) |
+| [![Fragile Cup](video/thumbnails/FragileCupManipulation.jpg)](video/user_study/FragileCupManipulation.mp4) | [![USB Plug](video/thumbnails/USBPlugging.jpg)](video/user_study/USBPlugging.mp4) | [![Texture Classification](video/thumbnails/TextureClassification.jpg)](video/user_study/TextureClassification.mov) | [![Stamp Press](video/thumbnails/StampPressing.jpg)](video/user_study/StampPressing.mp4) | [![Calligraphy](video/thumbnails/CalligraphyWriting.jpg)](video/user_study/CalligraphyWriting.mov) | [![Potato Chip](video/thumbnails/PotatoChipGrasping.jpg)](video/user_study/PotatoChipGrasping.mp4) | [![Tissue](video/thumbnails/TissueGrasping.jpg)](video/user_study/TissueGrasping.mp4) | [![Toothpaste](video/thumbnails/ToothpasteExtrusion.jpg)](video/user_study/ToothpasteExtrusion.mp4) |
 
 ## 🚀 FreeTacMan's Performance
 ### Policy Rollouts
