@@ -37,13 +37,13 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
-| [![Fragile Cup](video/thumbnails/FragileCupManipulation.jpg)](video/policy_rollouts/FragileCupManipulation.mov) | [![USB Plug](video/thumbnails/USBPlugging.jpg)](video/policy_rollouts/USBPlugging.mov) | [![Texture Classification](video/thumbnails/TextureClassification.jpg)](video/policy_rollouts/TextureClassification.mp4) | [![Stamp Press](video/thumbnails/StampPressing.jpg)](video/policy_rollouts/StampPressing.mov) | [![Calligraphy](video/thumbnails/CalligraphyWriting.jpg)](video/policy_rollouts/CalligraphyWriting.mp4) |
+| <video src="video/policy_rollouts/FragileCupManipulation.mov" width="200" controls></video> | <video src="video/policy_rollouts/USBPlugging.mov" width="200" controls></video> | <video src="video/policy_rollouts/TextureClassification.mp4" width="200" controls></video> | <video src="video/policy_rollouts/StampPressing.mov" width="200" controls></video> | <video src="video/policy_rollouts/CalligraphyWriting.mp4" width="200" controls></video> |
 
 ### User Study
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy | Potato Chip | Tissue | Toothpaste |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|:-----------:|:------:|:----------:|
-| [![Fragile Cup](video/thumbnails/FragileCupManipulation.jpg)](video/user_study/FragileCupManipulation.mp4) | [![USB Plug](video/thumbnails/USBPlugging.jpg)](video/user_study/USBPlugging.mp4) | [![Texture Classification](video/thumbnails/TextureClassification.jpg)](video/user_study/TextureClassification.mov) | [![Stamp Press](video/thumbnails/StampPressing.jpg)](video/user_study/StampPressing.mp4) | [![Calligraphy](video/thumbnails/CalligraphyWriting.jpg)](video/user_study/CalligraphyWriting.mov) | [![Potato Chip](video/thumbnails/PotatoChipGrasping.jpg)](video/user_study/PotatoChipGrasping.mp4) | [![Tissue](video/thumbnails/TissueGrasping.jpg)](video/user_study/TissueGrasping.mp4) | [![Toothpaste](video/thumbnails/ToothpasteExtrusion.jpg)](video/user_study/ToothpasteExtrusion.mp4) |
+| <video src="video/user_study/FragileCupManipulation.mp4" width="200" controls></video> | <video src="video/user_study/USBPlugging.mp4" width="200" controls></video> | <video src="video/user_study/TextureClassification.mov" width="200" controls></video> | <video src="video/user_study/StampPressing.mp4" width="200" controls></video> | <video src="video/user_study/CalligraphyWriting.mov" width="200" controls></video> | <video src="video/user_study/PotatoChipGrasping.mp4" width="200" controls></video> | <video src="video/user_study/TissueGrasping.mp4" width="200" controls></video> | <video src="video/user_study/ToothpasteExtrusion.mp4" width="200" controls></video> |
 
 ## 🚀 FreeTacMan's Performance
 ### Policy Rollouts
