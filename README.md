@@ -16,7 +16,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 ## Overview
 
-![FreeTacMan System Overview](figure/FreeTacMan_teaser.pdf)
+![FreeTacMan System Overview](figure/FreeTacMan_teaser.png)
 
 We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information. 
 
@@ -41,7 +41,7 @@ User Study
 Policy Rollouts
 
 User Study
-![Perfoemance of User Study](figure/FreeTacMan_teaser.pdf)
+![Perfoemance of User Study](figure/userstudy.png)
 ## 🎮 Getting Started
 ## Installation
 
