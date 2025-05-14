@@ -108,29 +108,14 @@ pip install -r requirements.txt
 
 ### Hardware Assembly
 
-1. **Components Required**
+For detailed hardware assembly instructions, please refer to our 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t).
 
-   - Tactile sensors (2x)
-   - Camera modules (2x)
-   - Microcontroller board
-   - Power supply
-   - Connecting cables
-   - 3D printed parts
+```bash
+# Download 3D models
+cd hardware/3d_models
 
-2. **Assembly Steps**
-   ```bash
-   # Download 3D models
-   cd hardware/3d_models
-   
-   # Print the parts using your 3D printer
-   # Follow the assembly guide in hardware/assembly_guide.md
-   ```
-
-3. **Calibration**
-   ```bash
-   # Run the calibration script
-   python scripts/calibrate_sensors.py
-   ```
+# Print the parts using your 3D printer
+```
 
 ### Data Collection
 
@@ -149,15 +134,6 @@ pip install -r requirements.txt
    python scripts/collect_data.py --task [task_name] --output [output_dir]
    ```
 
-3. **Available Tasks**
-   - Fragile Cup Manipulation
-   - USB Plugging
-   - Texture Classification
-   - Stamp Pressing
-   - Calligraphy Writing
-   - Potato Chip Grasping
-   - Tissue Grasping
-   - Toothpaste Extrusion
 
 ### Data Processing
 
@@ -181,11 +157,6 @@ pip install -r requirements.txt
    python scripts/train.py --config configs/pretrain.yaml
    ```
 
-2. **Fine-tuning**
-   ```bash
-   # Fine-tune on specific tasks
-   python scripts/train.py --config configs/finetune.yaml --task [task_name]
-   ```
 
 ### Inference
 
@@ -200,8 +171,6 @@ pip install -r requirements.txt
    # Run inference on new data
    python scripts/inference.py --model [model_path] --input [input_data] --output [output_dir]
    ```
-
-For more detailed instructions, please refer to our [documentation](docs/).
 
 ## 📝 Citation
 
