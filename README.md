@@ -7,12 +7,12 @@ motion control skills to robots efficiently by integrating visual and tactile da
 ## Table of Contents
 - [Overview](#overview)
 - [Highlights](#highlights)
-- [Demo](#demo)
+<!-- - [Demo](#demo)
   - [User Study](#user-study)
-  - [Policy Rollouts](#policy-rollouts)
-- [FreeTacMan's Performance](#freetacmans-performance)
+  - [Policy Rollouts](#policy-rollouts) -->
+<!-- - [FreeTacMan's Performance](#freetacmans-performance)
   - [User Study](#user-study-1)
-  - [Policy Rollouts](#policy-rollouts-1)
+  - [Policy Rollouts](#policy-rollouts-1) -->
 - [Getting Started](#getting-started)
   - [Installation](#installation)
     - [Requirements](#requirements)
@@ -44,7 +44,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 - **Tactile Data-collection System**: An in-situ, robot-free, real-time tactile data-collection system that leverages a handheld end effector and the proposed sensor to excel at diverse contact-rich tasks efficiently.
 - **Policy Learning Enhanced by Tactile Pretraining**: Experimental validation shows that imitation policies trained with our visuo-tactile data achieve an average 50% higher success rate than vision-only approaches in a wide spectrum of contact-rich manipulation tasks.
 
-## 🎥 Demo
+<!-- ## 🎥 Demo
 
 ### User Study
 
@@ -57,9 +57,9 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 
 | Fragile Cup | USB Plug | Texture Classification | Stamp Press | Calligraphy |
 |:-----------:|:--------:|:---------------------:|:-----------:|:-----------:|
-| <video src="video/policy_rollouts/FragileCupManipulation.mov" width="200" controls></video> | <video src="video/policy_rollouts/USBPlugging.mov" width="200" controls></video> | <video src="video/policy_rollouts/TextureClassification.mp4" width="200" controls></video> | <video src="video/policy_rollouts/StampPressing.mov" width="200" controls></video> | <video src="video/policy_rollouts/CalligraphyWriting.mp4" width="200" controls></video> |
+| <video src="video/policy_rollouts/FragileCupManipulation.mov" width="200" controls></video> | <video src="video/policy_rollouts/USBPlugging.mov" width="200" controls></video> | <video src="video/policy_rollouts/TextureClassification.mp4" width="200" controls></video> | <video src="video/policy_rollouts/StampPressing.mov" width="200" controls></video> | <video src="video/policy_rollouts/CalligraphyWriting.mp4" width="200" controls></video> | -->
 
-## 🚀 FreeTacMan's Performance
+<!-- ## 🚀 FreeTacMan's Performance
 
 ### User Study
 ![Perfoemance of User Study](figure/userstudy.png)
@@ -72,7 +72,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 | Ours (+ Tactile w/o Pretraining) | 75 | 10 | 70 | 55 | 65 | **55** |
 | Ours (+ Pretraining) | **80** | **20** | **90** | **85** | **80** | **71** |
 
-*Table 3: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
+*Table 3: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.* -->
 
 ## 🎮 Getting Started
 
