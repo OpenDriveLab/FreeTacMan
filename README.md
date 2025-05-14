@@ -179,13 +179,16 @@ If you find our work useful in your research, please consider citing our paper:
   title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System},
   author={Wu, Longyan and Yu, Checheng and Ren, Jieji and Chen, Li and Huang, Ran and Gu, Guoying and Li, Hongyang},
   journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2024}
+  year={2025}
 }
 ```
 
 ## 🙏 Acknowledgements
 
 We would like to thank:
+- Zherui Qiu for helping organize and supervise the user study
+- Huijie Wang for developing the demo page
+- The faculty and students at Shanghai Jiao Tong University's Soft Robotics and Biodesign Lab for their support and assistance
 - The authors of [ALOHA](https://github.com/tonyzhaozh/aloha) and [UMI](https://github.com/tonyzhaozh/umi) for their inspiring work
 - All the participants in our user study for their valuable feedback
 - The open-source community for their continuous support
