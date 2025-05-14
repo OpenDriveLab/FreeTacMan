@@ -54,13 +54,11 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 | Ours (+ Tactile w/o Pretraining) | 75 | 10 | 70 | 55 | 65 | **55** |
 | Ours (+ Pretraining) | **80** | **20** | **90** | **85** | **80** | **71** |
 
-*Table 1: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
+*Table 3: Policy success rates (%) across contact-rich tasks. The visuo-tactile information, together with the pretraining strategy, greatly helps imitation learning for the contact-rich tasks.*
 
 ### User Study
 ![Perfoemance of User Study](figure/userstudy.png)
 *Figure 1: User study results comparing FreeTacMan with ALOHA and UMI across different metrics. FreeTacMan demonstrates superior performance in completion rate, collection efficiency, and CPUT score per task, while also excelling in user experience evaluation including control accuracy, ease of collection procedure, and stability.*
-
-|
 
 ## 🎮 Getting Started
 ## Installation
