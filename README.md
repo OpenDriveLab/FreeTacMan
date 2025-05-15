@@ -7,17 +7,8 @@ motion control skills to robots efficiently by integrating visual and tactile da
 ## Table of Contents
 - [Overview](#overview)
 - [Highlights](#highlights)
-<!-- - [Demo](#demo)
-  - [User Study](#user-study)
-  - [Policy Rollouts](#policy-rollouts) -->
-<!-- - [FreeTacMan's Performance](#freetacmans-performance)
-  - [User Study](#user-study-1)
-  - [Policy Rollouts](#policy-rollouts-1) -->
 - [Getting Started](#getting-started)
   - [Installation](#installation)
-    - [Requirements](#requirements)
-    - [Clone the Repository](#clone-the-repository)
-    - [Install Dependencies](#install-dependencies)
   - [Hardware Assembly](#hardware-assembly)
   - [Data Collection](#data-collection)
   - [Data Processing](#data-processing)
