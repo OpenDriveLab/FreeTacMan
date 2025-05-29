@@ -1,0 +1,9 @@
+<launch>
+    <!-- unique camera name-->
+    <arg name="camera_name" default="camera"/>
+    <!-- Hardware depth registration -->
+    <arg name="depth_registration" default="true"/>
+    <arg name="serial_number" default=""/>
+    <node name="camera" pkg="astra_camera" type="list_devices_node" output="screen">
+    </node>
+</launch>

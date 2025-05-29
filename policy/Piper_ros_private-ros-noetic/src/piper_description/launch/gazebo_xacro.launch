@@ -1,0 +1,8 @@
+<launch>
+
+  <!-- 启动Gazebo  -->
+    <include file="$(find piper_description)/launch/piper_world.launch" />   
+
+    <!-- 启动Gazebo controllers -->
+     <include file="$(find piper_description)/launch/piper_gazebo_controller.launch" />   
+</launch>

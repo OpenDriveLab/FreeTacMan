@@ -1,0 +1,28 @@
+{
+  "task_config": {
+      "episode_len": 180,
+      "state_dim": 7,
+      "action_dim": 7,
+      "cam_width": 1920,
+      "cam_height": 1080,
+      "camera_names": ["front"]
+  },
+  "data_process_config": {
+      "marker_id_0":0,
+      "marker_id_1":1,
+      "input_dir": "./dataset/classifyredandbluetac",
+      "output_dir": "./dataset/hdf5_classifyredandbluetac",
+      "qpos_mode": "joint",
+      "camera_names": ["cam_right"],
+      "urdf_path": "./assets/piper_description.urdf",
+      "start_qpos": [
+          0, 0, 0, 0, 
+          0, 0, 0, 0, 0
+      ],
+      "active_joint_mask": [
+        true, true, true, true,
+        true, true, true, false, true
+      ],
+      "upsample_factor": 2
+  }
+}

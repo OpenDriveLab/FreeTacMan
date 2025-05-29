@@ -1,0 +1,4 @@
+[submodule "remote_control"]
+	path = remote_control
+	url = https://mirror.ghproxy.com/https://github.com/agilexrobotics/remote_control.git
+	branch = can

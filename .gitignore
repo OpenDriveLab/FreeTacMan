@@ -172,3 +172,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Generated Dataset
+*.hdf5
+*.mp4
+*.csv
+
+# Debuging log
+*.log

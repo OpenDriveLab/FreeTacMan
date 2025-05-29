@@ -1,0 +1,44 @@
+<launch>
+    <!-- unique camera name-->
+    <arg name="camera_name" default="camera"/>
+    <arg name="3d_sensor" default="dabai"/>
+    <arg name="device_num" default="3"/>
+    
+    <!-- 相机topic前缀 -->
+    <arg name="camera1_prefix" default="r"/>
+    <arg name="camera2_prefix" default="l"/>
+    <arg name="camera3_prefix" default="f"/>
+
+    <!-- 相机序列号 -->
+    
+
+    <arg name="camera1_serila_number" default="AU1231201GE"/>
+    <arg name="camera2_serila_number" default="AU1P32201SA"/>
+    <arg name="camera3_serila_number" default="AU1953304F2"/> 
+
+    <!-- <arg name="camera1_serila_number" default="$(env camera00_serial_num)"/>
+    <arg name="camera2_serila_number" default="$(env camera01_serial_num)"/>
+    <arg name="camera3_serila_number" default="$(env camera02_serial_num)"/> -->
+    
+    <include file="$(find astra_camera)/launch/$(arg 3d_sensor).launch">
+        <arg name="camera_name" value="$(arg camera_name)_$(arg camera1_prefix)"/>
+        <arg name="serial_number" value="$(arg camera1_serila_number)"/>
+        <arg name="device_num" value="$(arg device_num)"/>
+    </include>
+
+    
+    <include file="$(find astra_camera)/launch/$(arg 3d_sensor).launch">
+        <arg name="camera_name" value="$(arg camera_name)_$(arg camera2_prefix)"/>
+        <arg name="serial_number" value="$(arg camera2_serila_number)"/>
+        <arg name="device_num" value="$(arg device_num)"/>
+    </include>
+
+      
+    <include file="$(find astra_camera)/launch/$(arg 3d_sensor).launch">
+        <arg name="camera_name" value="$(arg camera_name)_$(arg camera3_prefix)"/>
+        <arg name="serial_number" value="$(arg camera3_serila_number)"/>
+        <arg name="device_num" value="$(arg device_num)"/>
+    </include>
+
+</launch>
+

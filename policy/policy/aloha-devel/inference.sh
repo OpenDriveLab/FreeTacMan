@@ -1,0 +1,1 @@
+python act/inference.py --ckpt_dir checkpoint --task_name open_cabinet_dp

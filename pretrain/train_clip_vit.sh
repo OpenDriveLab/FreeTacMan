@@ -1,0 +1,13 @@
+python ./clip_pretraining_vit.py \
+--dataset_dir /cpfs01/shared/opendrivelab/yuchecheng/whole_dataset_freetacman_1 \
+--save_dir /cpfs01/user/yuchecheng/FastUMI_Data/cobot_magic/aloha-devel/checkpoint/clip_vit_multi_aug \
+--num_episodes 1000 \
+--batch_size 256 \
+--n_clip_images 5 \
+--min_distance 20 \
+--save_freq 100 \
+--plot_freq 50 \
+--n_epochs 5000 \
+--vit_lr 1e-4 \
+--projection_lr 1e-4 \
+--data_augmentation True

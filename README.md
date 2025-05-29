@@ -24,7 +24,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information. 
 
-📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🚀 [Demo Page](https://freetacman.github.io) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t)
+📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🚀 [Demo Page](https://freetacmanblog.github.io/) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t)
 
 ✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
 
@@ -101,64 +101,81 @@ pip install -r requirements.txt
 
 For detailed hardware assembly instructions, please refer to our 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t).
 
-```bash
+<!-- ```bash
 # Download 3D models
 cd hardware/3d_models
 
 # Print the parts using your 3D printer
-```
+``` -->
 
 ### Data Collection
-
-1. **Setup Environment**
+1. **Set up Environment**
    ```bash
-   # Configure the tracking system
-   python scripts/setup_tracking.py
-   
-   # Test the sensors
-   python scripts/test_sensors.py
+   # Test the sensors and OptiTrack tracking system
+   python data_collection/test_collection.py
    ```
 
 2. **Start Collection**
    ```bash
    # Start data collection
-   python scripts/collect_data.py --task [task_name] --output [output_dir]
+   python data_collection/start_collect.py
    ```
 
 ### Data Processing
+Before starting to process your collected raw data, you need to place your robot URDF file into ```asset```, and modify the configurations in ```data_collection/config.json```.
+```bash
+# Process collected data
+python scripts/process_data.py
+```
 
-1. **Preprocess Raw Data**
-   ```bash
-   # Process collected data
-   python scripts/process_data.py --input [raw_data_dir] --output [processed_data_dir]
-   ```
-
-2. **Generate Dataset**
-   ```bash
-   # Create training dataset
-   python scripts/create_dataset.py --input [processed_data_dir] --output [dataset_dir]
-   ```
 
 ### Training
-
 1. **Pretraining**
    ```bash
+   # Start pretraining by running sh file
+   bash pretrain/train_clip_resnet.sh
+   # Or directly run the Python file
+   python pretrain/clip_pretraining.py \
+         --dataset_dir /path/to/your/dataset \
+         --save_dir /path/to/your/checkpoint \
+         --num_episodes 1000 \
+         --batch_size 45 \
+         --n_clip_images 5 \
+         --min_distance 20 \
+         --n_epochs 5000 \
+   ```
+2. **Policy Training**
+   ```bash
    # Start pretraining
-   python scripts/train.py --config configs/pretrain.yaml
+   bash policy/aloha-devel/train.sh
+   # Or directly run the Python file
+   python policy/aloha-devel/act/train.py \
+         --dataset_dir $dataset_dir \
+         --ckpt_dir $save_dir \
+         --num_episodes $num_episodes \
+         --batch_size $batch_size \
+         --num_epochs $num_epochs \
+         --task_name $task \
+         --policy_class ACT \
+         --chunk_size $chunk_size \
+         --use_tactile_image true \
+         --pretrained_tactile_backbone true \
+         --tactile_backbone_path /path/to/your/pretrain/checkpoint
+
    ```
 
 ### Inference
-
-1. **Load Model**
-   ```bash
-   # Load pretrained model
-   python scripts/load_model.py --checkpoint [checkpoint_path]
-   ```
-
-2. **Run Inference**
    ```bash
    # Run inference on new data
-   python scripts/inference.py --model [model_path] --input [input_data] --output [output_dir]
+   python scripts/inference.py \
+      --batch_size $batch_size \
+      --task_name $task \
+      --policy_class ACT \
+      --ckpt_dir $save_dir \
+      --use_tactile_image true \
+      --pretrained_tactile_backbone true \
+      --tactile_backbone_path /path/to/your/pretrain/checkpoint
+
    ```
 
 ## 📝 Citation

@@ -1,0 +1,113 @@
+<launch>
+    <!-- unique camera name-->
+    <arg name="camera_name" default="camera"/>
+    <!-- Hardware depth registration -->
+    <arg name="depth_align" default="false"/>
+    <arg name="serial_number" default=""/>
+    <arg name="device_num" default="1"/>
+    <arg name="vendor_id" default="0"/>
+    <arg name="product_id" default="0"/>
+    <arg name="enable_point_cloud" default="true"/>
+    <arg name="enable_point_cloud_xyzrgb" default="false"/>
+    <arg name="connection_delay" default="100"/>
+    <arg name="color_width" default="640"/>
+    <arg name="color_height" default="480"/>
+    <arg name="color_fps" default="30"/>
+    <arg name="enable_color" default="true"/>
+    <arg name="flip_color" default="false"/>
+    <arg name="color_format" default="RGB"/>
+    <arg name="depth_width" default="640"/>
+    <arg name="depth_height" default="480"/>
+    <arg name="depth_fps" default="30"/>
+    <arg name="enable_depth" default="true"/>
+    <arg name="flip_depth" default="false"/>
+    <arg name="depth_format" default="Y11"/>
+    <arg name="ir_width" default="640"/>
+    <arg name="ir_height" default="480"/>
+    <arg name="ir_fps" default="30"/>
+    <arg name="enable_ir" default="true"/>
+    <arg name="ir_format" default="Y10"/>
+    <arg name="flip_ir" default="false"/>
+    <arg name="publish_tf" default="true"/>
+    <arg name="tf_publish_rate" default="10.0"/>
+    <arg name="ir_info_uri" default=""/>
+    <arg name="color_info_uri" default=""/>
+    <arg name="color_roi_x" default="-1"/>
+    <arg name="color_roi_y" default="-1"/>
+    <arg name="color_roi_width" default="-1"/>
+    <arg name="color_roi_height" default="-1"/>
+    <arg name="depth_roi_x" default="-1"/>
+    <arg name="depth_roi_y" default="-1"/>
+    <arg name="depth_roi_width" default="-1"/>
+    <arg name="depth_roi_height" default="-1"/>
+    <arg name="depth_scale" default="1"/>
+    <arg name="color_depth_synchronization" default="false"/>
+    <arg name="use_uvc_camera" default="true"/>
+    <arg name="uvc_vendor_id" default="0x2bc5"/>
+    <arg name="uvc_product_id" default="0x0501"/>
+    <arg name="uvc_retry_count" default="100"/>
+    <arg name="uvc_camera_format" default="mjpeg"/>
+    <arg name="uvc_flip" default="false"/>
+    <arg name="oni_log_level" default="verbose"/>
+    <arg name="oni_log_to_console" default="false"/>
+    <arg name="oni_log_to_file" default="false"/>
+    <arg name="enable_d2c_viewer" default="false"/>
+    <arg name="enable_publish_extrinsic" default="false"/>
+    <group ns="$(arg camera_name)">
+        <node name="camera" pkg="astra_camera" type="astra_camera_node" output="screen">
+            <param name="camera_name" value="$(arg camera_name)"/>
+            <param name="depth_align" value="$(arg depth_align)"/>
+            <param name="serial_number" type="string" value="$(arg serial_number)"/>
+            <param name="device_num" value="$(arg device_num)"/>
+            <param name="vendor_id" value="$(arg vendor_id)"/>
+            <param name="product_id" value="$(arg product_id)"/>
+            <param name="enable_point_cloud" value="$(arg enable_point_cloud)"/>
+            <param name="enable_point_cloud_xyzrgb" value="$(arg enable_point_cloud_xyzrgb)"/>
+            <param name="connection_delay" value="$(arg connection_delay)"/>
+            <param name="color_width" value="$(arg color_width)"/>
+            <param name="color_height" value="$(arg color_height)"/>
+            <param name="color_fps" value="$(arg color_fps)"/>
+            <param name="enable_color" value="$(arg enable_color)"/>
+            <param name="color_format" value="$(arg color_format)"/>
+            <param name="flip_color" value="$(arg flip_color)"/>
+            <param name="depth_width" value="$(arg depth_width)"/>
+            <param name="depth_height" value="$(arg depth_height)"/>
+            <param name="depth_fps" value="$(arg depth_fps)"/>
+            <param name="flip_depth" value="$(arg flip_depth)"/>
+            <param name="enable_depth" value="$(arg enable_depth)"/>
+            <param name="depth_format" value="$(arg depth_format)"/>
+            <param name="ir_width" value="$(arg ir_width)"/>
+            <param name="ir_height" value="$(arg ir_height)"/>
+            <param name="ir_fps" value="$(arg ir_fps)"/>
+            <param name="enable_ir" value="$(arg enable_ir)"/>
+            <param name="flip_ir" value="$(arg flip_ir)"/>
+            <param name="ir_format" value="$(arg ir_format)"/>
+            <param name="publish_tf" value="$(arg publish_tf)"/>
+            <param name="tf_publish_rate" value="$(arg tf_publish_rate)"/>
+            <param name="ir_info_uri" value="$(arg ir_info_uri)"/>
+            <param name="color_info_uri" value="$(arg color_info_uri)"/>
+            <param name="color_roi_x" value="$(arg color_roi_x)"/>
+            <param name="color_roi_y" value="$(arg color_roi_y)"/>
+            <param name="color_roi_width" value="$(arg color_roi_width)"/>
+            <param name="color_roi_height" value="$(arg color_roi_height)"/>
+            <param name="depth_roi_x" value="$(arg depth_roi_x)"/>
+            <param name="depth_roi_y" value="$(arg depth_roi_y)"/>
+            <param name="depth_roi_width" value="$(arg depth_roi_width)"/>
+            <param name="depth_roi_height" value="$(arg depth_roi_height)"/>
+            <param name="depth_scale" value="$(arg depth_scale)"/>
+            <param name="color_depth_synchronization" value="$(arg color_depth_synchronization)"/>
+            <param name="use_uvc_camera" value="$(arg use_uvc_camera)"/>
+            <param name="uvc_vendor_id" value="$(arg uvc_vendor_id)"/>
+            <param name="uvc_product_id" value="$(arg uvc_product_id)"/>
+            <param name="uvc_retry_count" value="$(arg uvc_retry_count)"/>
+            <param name="uvc_camera_format" value="$(arg uvc_camera_format)"/>
+            <param name="uvc_flip" value="$(arg uvc_flip)"/>
+            <param name="oni_log_level" value="$(arg oni_log_level)"/>
+            <param name="oni_log_to_console" value="$(arg oni_log_to_console)"/>
+            <param name="oni_log_to_file" value="$(arg oni_log_to_file)"/>
+            <param name="enable_d2c_viewer" value="$(arg enable_d2c_viewer)"/>
+            <param name="enable_publish_extrinsic" value="$(arg enable_publish_extrinsic)"/>
+            <remap from="/$(arg camera_name)/depth/color/points" to="/$(arg camera_name)/depth_registered/points"/>
+        </node>
+    </group>
+</launch>
