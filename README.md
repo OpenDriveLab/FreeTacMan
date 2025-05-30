@@ -74,7 +74,7 @@ We introduce FreeTacMan, a human-centric and robot-free data collection system f
 - Python 3.7+
 - PyTorch 1.9+ (or compatible)
 - CUDA 11.0+ (for GPU support)
-- [Other dependencies](requirements.txt)
+- [Other dependencies](requirement.txt)
 
 #### Clone the Repository
 
@@ -120,6 +120,7 @@ cd hardware/3d_models
    # Start data collection
    python data_collection/start_collect.py
    ```
+   After the collection, all the raw data of current task will be saved to ```dataset/raw/task_name```.
 
 ### Data Processing
 Before starting to process your collected raw data, you need to place your robot URDF file into ```asset```, and modify the configurations in ```data_collection/config.json```.
@@ -127,10 +128,12 @@ Before starting to process your collected raw data, you need to place your robot
 # Process collected data
 python scripts/process_data.py
 ```
+After the data processing, the raw data will be processed to hdf5 files which are available for pretrain and policy training, saved in ```dataset/processed/task_name```. 
 
 
 ### Training
 1. **Pretraining**
+   Before starting to pretrain your tactile encoder, please check your dataset path (processed) and model saving path in ```pretrain/train_clip_resnet.sh```.
    ```bash
    # Start pretraining by running sh file
    bash pretrain/train_clip_resnet.sh
@@ -144,7 +147,9 @@ python scripts/process_data.py
          --min_distance 20 \
          --n_epochs 5000 \
    ```
-2. **Policy Training**
+3. **Policy Training**
+   Before starting to train your ACT policy, please check your task dataset (processed) and other training parameters in ```policy/aloha-devel/train.sh```.
+   
    ```bash
    # Start pretraining
    bash policy/aloha-devel/train.sh
