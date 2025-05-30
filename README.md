@@ -199,10 +199,11 @@ If you find our work useful in your research, please consider citing our paper:
 ## 🙏 Acknowledgements
 
 We would like to thank:
-- Huijie Wang for helping develop the demo page
+- Huijie Wang for developing the demonstration page
 - Zherui Qiu for helping organize and supervise the user study
-- The faculty and students at Shanghai Jiao Tong University's Soft Robotics and Biodesign Lab for their support and assistance
-- All the participants in our user study for their valuable feedback
+- Yixuan Pan, Qingwen Bu, Zhuoheng Li, Jisong Cai, Yuxiang Lu, and Zhang Ningbin for their valuable insights and constructive discussions
+- Zhirui Zhang, Xinyu Yang, Fengjie Shen, Huang Taoyuan, and Lekai Chen for their assistance during the experiments
+- All user study participants for their valuable feedback
 
 ## 📄 License
 
