@@ -202,9 +202,7 @@ We would like to thank:
 - Huijie Wang for helping develop the demo page
 - Zherui Qiu for helping organize and supervise the user study
 - The faculty and students at Shanghai Jiao Tong University's Soft Robotics and Biodesign Lab for their support and assistance
-- The authors of [ALOHA](https://github.com/tonyzhaozh/aloha) and [UMI](https://github.com/tonyzhaozh/umi) for their inspiring work
 - All the participants in our user study for their valuable feedback
-- The open-source community for their continuous support
 
 ## 📄 License
 
