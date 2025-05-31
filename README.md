@@ -1,5 +1,4 @@
 # FreeTacMan: Robot-free Visuo-Tactile Data Collection System
-🔗https://freetacmanblog.github.io/
 
 <!-- 
 FreeTacMan is a robot-free, human-centric visuo-tactile
