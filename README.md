@@ -17,6 +17,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 ✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
 
 📧 Primary Contact: Longyan Wu (im.longyanwu@gmail.com)
+
 💼 Joint effort by Shanghai Innovation Institute, The University of Hong Kong, and Shanghai Jiao Tong University
 
 ## 🦾 Highlights
@@ -25,7 +26,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 - **Policy Learning Enhanced by Tactile Pretraining**: Imitation policies trained with our visuo-tactile data outperform vision-only baselines by 50% on average.
 <!-- in a wide spectrum of contact-rich manipulation tasks. -->
 
-## Table of Contents
+## 🎯 Table of Contents
 - [Overview](#overview)
 - [Highlights](#highlights)
 - [Getting Started](#getting-started)
