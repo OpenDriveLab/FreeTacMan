@@ -1,0 +1,17 @@
+{
+  "task_name": "test",
+  "input_dir": "./dataset/raw/test",
+  "output_dir": "./dataset/processed/test",
+  "qpos_mode": "joint",
+  "camera_names": ["front"],
+  "urdf_path": "./assets/piper_description.urdf",
+  "start_qpos": [
+      0, 0, 0, 0, 
+      0, 0, 0, 0, 0
+  ],
+  "active_joint_mask": [
+    true, true, true, true,
+    true, true, true, false, true
+  ],
+  "upsample_factor": 2
+}

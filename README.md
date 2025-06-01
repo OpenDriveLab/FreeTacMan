@@ -114,36 +114,46 @@ cd hardware/3d_models
 ``` -->
 
 ### Data Collection
-1. **Set up Environment**
+1. **Pre-Requisites and Environment Setup**
+Before starting to collect your visuo-tactile data, please make sure you have completed all preparations described in [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t), including correct connection of each sensor and camera, installation and verification of the motion capture software.
+Now run a test script to identify which index corresponds to each sensor (two visuo-tactile sensors and one fisheye camera by default). You will see all cameras currently connected to the data collection computer, along with their corresponding indices.
    ```bash
    # Test the sensors and OptiTrack tracking system
    python data_collection/test_collection.py
    ```
 
+
 2. **Start Collection**
+Before starting to collect your <task_name> data, modify the configurations in ```config/collect.json```.
    ```bash
    # Start data collection
    python data_collection/start_collect.py
    ```
-   After the collection, all the raw data of current task will be saved to ```dataset/raw/task_name```.
+   After the collection, all the raw data of current task will be saved to ```dataset/raw/<task_name>```.
 
 ### Data Processing
-Before starting to process your collected raw data, you need to place your robot URDF file into ```asset```, and modify the configurations in ```data_collection/config.json```.
+Before starting to process your collected raw data, you need to place your robot URDF file into ```asset``` for inverse kinematics, and modify the configurations in ```config/process.json```.
+1. **Process the Marker Data to TCP Pose**
 ```bash
 # Process collected data
-python scripts/process_data.py
+python scripts/marker_to_eep.py
 ```
-After the data processing, the raw data will be processed to hdf5 files which are available for pretrain and policy training, saved in ```dataset/processed/task_name```. 
+2. **Process the TCP Pose Data to Joint Data**
+```bash
+# Process collected data
+python scripts/pose_to_joint.py
+```
+After the data processing, the raw data will be processed to hdf5 files which are available for pretrain and policy training, saved in ```dataset/processed/<task_name>```. 
 
 
 ### Training
 1. **Pretraining**
-   Before starting to pretrain your tactile encoder, please check your dataset path (processed) and model saving path in ```pretrain/train_clip_resnet.sh```.
+   Before starting to pretrain your tactile encoder, please check your dataset path (processed) and model saving path in ```pretrain/train_clip.sh```.
    ```bash
    # Start pretraining by running sh file
    bash pretrain/train_clip_resnet.sh
    # Or directly run the Python file
-   python pretrain/clip_pretraining.py \
+   python pretrain/clip_pretraining_resnet.py \
          --dataset_dir /path/to/your/dataset \
          --save_dir /path/to/your/checkpoint \
          --num_episodes 1000 \
@@ -153,13 +163,13 @@ After the data processing, the raw data will be processed to hdf5 files which ar
          --n_epochs 5000 \
    ```
 3. **Policy Training**
-   Before starting to train your ACT policy, please check your task dataset (processed) and other training parameters in ```policy/aloha-devel/train.sh```.
+   Before starting to train your ACT policy, please check your task dataset (processed) and other training parameters in ```policy/train.sh```.
    
    ```bash
    # Start pretraining
-   bash policy/aloha-devel/train.sh
+   bash policy/train.sh
    # Or directly run the Python file
-   python policy/aloha-devel/act/train.py \
+   python policy/act/train.py \
          --dataset_dir $dataset_dir \
          --ckpt_dir $save_dir \
          --num_episodes $num_episodes \
@@ -177,7 +187,7 @@ After the data processing, the raw data will be processed to hdf5 files which ar
 ### Inference
    ```bash
    # Run inference on new data
-   python scripts/inference.py \
+   python policy/ACT/inference.py \
       --batch_size $batch_size \
       --task_name $task \
       --policy_class ACT \

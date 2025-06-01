@@ -1,0 +1,13 @@
+{
+    "task_name": "test",
+    "time_duration": 8,
+    "camera_frame_rate": 30,
+    "camera_width": 640,
+    "camera_height": 480,
+    "camera_indices": [0, 3],
+    "exposures": {
+        "0": -5,
+        "3": -6
+    },
+    "suffix": 1
+}

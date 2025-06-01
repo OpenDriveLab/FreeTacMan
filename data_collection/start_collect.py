@@ -1,197 +1,164 @@
-import time
-import numpy as np
+import os
 import cv2
-from NatNetClient import NatNetClient
-import os  # 添加在文件开头的import部分
+import time
 import winsound
+import json
+import numpy as np
+from NatNetClient import NatNetClient
 
-# 参数设置
-t_total =   8# 总时间（秒）
+# Load configuration from JSON file
+with open("config/collect.json", "r") as cfg_file:
+    config = json.load(cfg_file)
 
-# 相机帧率
-camera_frame_rate = 30
+time_duration = config.get("time_duration", 8)
+camera_frame_rate = config.get("camera_frame_rate", 30)
+camera_indices = config.get("camera_indices", [0, 3])
+camera_width = config.get("camera_width", 640)
+camera_height = config.get("camera_height", 480)
+exposures = config.get("exposures", {})  # e.g., { "0": -5, "3": -6 }
+task_name = config.get("task_name", "default_task")
+suffix = config.get("initial_suffix", 1)
 
-# 相机配置
 cameras = []
-
-# 打印出电脑可用的相机索引
-# camera_indices = []
-# for i in range(10):  # 假设最多有10个相机
-#     cap = cv2.VideoCapture(i)
-#     if cap.isOpened():
-#         camera_indices.append(i)
-#         cap.release()
-# print(f"Available camera indices: {camera_indices}")
-camera_indices = [0 ,3]  # 三个相机的索引
-
-# 设置相机分辨率
-camera_width = 640  # 设置相机宽度
-camera_height = 480  # 设置相机高度
-
 for cam_idx in camera_indices:
     camera = cv2.VideoCapture(cam_idx)
     if camera.isOpened():
-        camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)  # 禁用自动对焦
-        camera.set(cv2.CAP_PROP_FPS, camera_frame_rate)  # 设置相机帧率
+        camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+        camera.set(cv2.CAP_PROP_FPS, camera_frame_rate)
         camera.set(cv2.CAP_PROP_FRAME_WIDTH, camera_width)
         camera.set(cv2.CAP_PROP_FRAME_HEIGHT, camera_height)
-        camera.set(cv2.CAP_PROP_EXPOSURE, -6)  # 设置相机曝光为固定值
+        exp_value = exposures.get(str(cam_idx), exposures.get(cam_idx, None))
+        if exp_value is not None:
+            camera.set(cv2.CAP_PROP_EXPOSURE, exp_value)
         cameras.append(camera)
         print(f"Camera {cam_idx} opened successfully.")
     else:
         print(f"Failed to open camera {cam_idx}")
-camera = cv2.VideoCapture(0)
-camera.set(cv2.CAP_PROP_EXPOSURE, -5)  # 设置相机曝光为固定值
-# camera = cv2.VideoCapture(0)
-# if camera.isOpened():
-#     camera.set(cv2.CAP_PROP_EXPOSURE, -6)  # 设置相机曝光为固定值
-#     print(f"Camera {cam_idx} opened successfully.")
-# else:
-#     print(f"Failed to open camera {cam_idx}")
-        
 
 if len(cameras) == 0:
-    print("No cameras opened successfully.")
+    print("No cameras opened successfully. Exiting.")
     exit()
 
-# 用户输入任务名称
-task_name = input("Please input task name: ")
-suffix = 1
-
-# 创建保存数据的目录
-data_dir = os.path.join(".", "data", task_name)
+# Create directory for saving data
+data_dir = os.path.join(".", "dataset", "raw", task_name)
 os.makedirs(data_dir, exist_ok=True)
 
-# OptiTrack 配置
-natnet_client = NatNetClient(task_name, suffix)  # 传递 task_name 和 suffix
+# Initialize NatNet client
+natnet_client = NatNetClient(task_name, suffix)
 natnet_client.set_client_address('127.0.0.1')
 natnet_client.set_server_address('127.0.0.1')
 natnet_client.set_use_multicast(True)
 
 def collect_data(suffix):
-    # 初始化存储
+    # Prepare video writers and timestamp storage
     frame_timestamps = [[] for _ in range(len(cameras))]
     video_writers = []
     timestamps_files = []
     video_filenames = []
-    
-    # 添加帧率控制
-    frame_interval = 1.0 / camera_frame_rate  # 计算每帧的理想时间间隔
-    next_frame_time = 0
-    
-    # 计算目标总帧数
-    target_total_frames = int(t_total * camera_frame_rate)
-    
-    for i in range(len(cameras)):
+
+    frame_interval = 1.0 / camera_frame_rate
+    targetime_duration_frames = int(time_duration * camera_frame_rate)
+
+    for i, cam in enumerate(cameras):
         video_filename = os.path.join(data_dir, f"{task_name}_{suffix}_camera{i+1}.mp4")
-        video_filenames.append(video_filename)  # 保存文件名
-        timestamps_txt_filename = os.path.join(data_dir, f"{task_name}_{suffix}_Camera{i+1}Timestamps.txt")
-        
-        video_writer = cv2.VideoWriter(
+        video_filenames.append(video_filename)
+
+        timestamps_txt = os.path.join(data_dir, f"{task_name}_{suffix}_camera{i+1}_timestamps.txt")
+        timestamps_files.append(timestamps_txt)
+
+        writer = cv2.VideoWriter(
             video_filename,
             cv2.VideoWriter_fourcc(*'mp4v'),
             camera_frame_rate,
             (camera_width, camera_height)
         )
-        video_writers.append(video_writer)
-        timestamps_files.append(timestamps_txt_filename)
+        video_writers.append(writer)
 
     if not natnet_client.run():
-        print("Failed to start NatNet client")
+        print("Failed to start NatNet client.")
         return False
 
-    # 开始采集
     start_time = time.time()
-    frame_count = 0  # 记录已采集的帧数
-    print(f"开始采集数据，计划采集{target_total_frames}帧(约{t_total}秒)...")
-    
+    frame_count = 0
+    print(f"Starting data collection: aiming for {targetime_duration_frames} frames (~{time_duration} seconds).")
+
+    next_frame_time = time.time()
     try:
-        next_frame_time = time.time()  # 初始化下一帧的时间
         while True:
             current_time = time.time()
-            
-            # 检查是否达到目标帧数
-            if frame_count >= target_total_frames:
-                print(f"已达到目标帧数 {target_total_frames} 帧，停止采集")
+
+            if frame_count >= targetime_duration_frames:
+                print(f"Reached target frame count {targetime_duration_frames}. Stopping collection.")
                 break
 
-            # 等待直到达到下一帧的时间
             if current_time < next_frame_time:
-                time.sleep(0.001)  # 小睡避免CPU过度使用
+                time.sleep(0.001)
                 continue
 
-            print(f"已采集：{frame_count}/{target_total_frames}帧")
+            print(f"Collected {frame_count}/{targetime_duration_frames} frames...")
 
-            # 采集所有相机的帧
             for cam_idx, camera in enumerate(cameras):
-                # tic=time.time()
                 ret, frame = camera.read()
-                # print("check",time.time()-tic)
                 if not ret:
-                    print(f"Failed to capture frame from camera {cam_idx+1}")
+                    print(f"Failed to capture frame from camera {cam_idx + 1}")
                     continue
 
-                current_frame_time = time.time()
-                frame_timestamps[cam_idx].append(current_frame_time)
-
+                timestamp = time.time()
+                frame_timestamps[cam_idx].append(timestamp)
                 video_writers[cam_idx].write(frame)
 
-            # 更新下一帧的时间和帧计数器
-            next_frame_time += frame_interval
             frame_count += 1
+            next_frame_time += frame_interval
 
-            # 检查是否按下 'q' 键提前退出
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
-                print("用户手动停止采集")
+                print("Collection stopped by user.")
                 break
 
     except KeyboardInterrupt:
-        print("用户通过Ctrl+C中断采集")
+        print("Collection interrupted via Ctrl+C.")
     finally:
-        # 确保资源正确释放
+        # Release video writers
         for writer in video_writers:
             writer.release()
 
-        # 保存所有相机的时间戳
+        # Save timestamps to files
         for cam_idx, timestamps in enumerate(frame_timestamps):
             with open(timestamps_files[cam_idx], 'w') as f:
                 for ts in timestamps:
                     f.write(f"{ts:.3f}\n")
 
         actual_duration = time.time() - start_time
-        print(f"数据采集完成，共{frame_count}帧，用时{actual_duration:.2f}秒")
-        print(f"实际帧率: {frame_count/actual_duration:.2f} fps")
+        print(f"Data collection complete: {frame_count} frames in {actual_duration:.2f} seconds.")
+        print(f"Actual frame rate: {frame_count / actual_duration:.2f} fps")
+
         for cam_idx in range(len(cameras)):
-            print(f"相机{cam_idx+1}视频已保存为 {os.path.basename(video_filenames[cam_idx])}")
-            print(f"相机{cam_idx+1}时间戳已保存为 {os.path.basename(timestamps_files[cam_idx])}")
-        print(f"OptiTrack数据已保存为 {task_name}_{suffix}_optitrack.npy")
+            print(f"Camera {cam_idx + 1} video saved as {os.path.basename(video_filenames[cam_idx])}")
+            print(f"Camera {cam_idx + 1} timestamps saved as {os.path.basename(timestamps_files[cam_idx])}")
+        print(f"OptiTrack data saved as {task_name}_{suffix}_optitrack.npy")
+
         winsound.Beep(1000, 500)
     return True
 
 while True:
-    # 进行数据采集
     if not collect_data(suffix):
         break
 
-    # 暂停采集，等待用户输入
     natnet_client.shutdown()
-    user_input = input("请输入回车以继续下一组采集，输入 'q' 退出: ")
+    user_input = input("Press 'Enter' to continue or 'q' to quit: ")
     if user_input.lower() == 'q':
         break
-    elif user_input.lower() != '':
-        print("输入无效，请输入回车继续或 'q' 退出。")
+    elif user_input != '':
+        print("Invalid input. Please press 'Enter' to continue or 'q' to quit.")
         continue
 
-    # 重新启动 NatNet 客户端
-    natnet_client = NatNetClient(task_name, suffix + 1)  # 更新 suffix
+    suffix += 1
+    natnet_client = NatNetClient(task_name, suffix)
     natnet_client.set_client_address('127.0.0.1')
     natnet_client.set_server_address('127.0.0.1')
     natnet_client.set_use_multicast(True)
 
-    suffix += 1
-
-# 释放所有相机资源和关闭 NatNet 客户端
+# Release camera resources and shut down NatNet
 for camera in cameras:
     camera.release()
 natnet_client.shutdown()

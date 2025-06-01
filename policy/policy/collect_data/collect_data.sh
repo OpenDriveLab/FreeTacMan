@@ -1,1 +1,0 @@
-python /home/agilex/cobot_magic/collect_data/collect_data.py --task_name test --max_timesteps 500 --episode_idx 0

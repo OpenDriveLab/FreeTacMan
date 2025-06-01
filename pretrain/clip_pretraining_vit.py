@@ -22,8 +22,8 @@ from transformers import AutoModel, pipeline
 
 from PIL import Image, ImageOps
 
-os.environ['TRANSFORMERS_CACHE'] = '/cpfs01/user/yuchecheng/.cache/huggingface'
-VIT_MODEL_PATH = "/cpfs01/user/yuchecheng/vit_base_patch16_clip_224/snapshots/977e3dd0ec55ab8da155f2fbeb6b5f54948b6e3d" 
+os.environ['TRANSFORMERS_CACHE'] = '/path/to/cache'
+VIT_MODEL_PATH = "/path/to/vit_model" 
 # Load CLIP ViT model
 # transform = transforms.Compose([
 #     transforms.Lambda(lambda x: Image.fromarray(x.astype('uint8'))),
@@ -763,8 +763,8 @@ def replot_loss_graph(training_losses, testing_losses):
 
 if __name__ == "__main__":
     args_parser = argparse.ArgumentParser()
-    args_parser.add_argument('--dataset_dir', type=str, default='/home/aigeorge/research/TactileACT/data/camera_cage_new_mount')
-    args_parser.add_argument('--save_dir', type=str, default='/home/aigeorge/research/TactileACT/data/camera_cage_new_mount/clip_models')
+    args_parser.add_argument('--dataset_dir', type=str, default='')
+    args_parser.add_argument('--save_dir', type=str, default='')
     args_parser.add_argument('--num_episodes', type=int, default=1000)
     args_parser.add_argument('--camera_names', type=list, default=['front'])
     args_parser.add_argument('--use_existing', type=bool, default=True)
