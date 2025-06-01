@@ -666,13 +666,13 @@ class NatNetClient:
                 # print(output)
 
                 trace_mf("    size : [%3.2f]"%size)
-                # print('+++++++++++++++++++++++++++')
+
                 # import os
 
-                # # 确保目录存在
+
                 # os.makedirs('./data', exist_ok=True)
 
-                # # 以追加模式打开文件，如果文件不存在则创建
+
                 # with open('./data/labeled_marker.txt', 'a') as file:
                 #     file.write("%3.1d ID    : [MarkerID: %3.1d] [ModelID: %3.1d]\n"%(lm_num, marker_id,model_id))
                 #     file.write("    pos  : [%3.2f, %3.2f, %3.2f]\n"%(pos[0],pos[1],pos[2]))
