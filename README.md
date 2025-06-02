@@ -27,18 +27,18 @@ motion control skills to robots efficiently by integrating visual and tactile da
 <!-- in a wide spectrum of contact-rich manipulation tasks. -->
 
 ## 🎯 Table of Contents
-- [Overview](#overview)
-- [Highlights](#highlights)
-- [Getting Started](#getting-started)
+- [⭐ Overview](#-overview)
+- [🦾 Highlights](#-highlights)
+- [🎮 Getting Started](#-getting-started)
   - [Installation](#installation)
   - [Hardware Assembly](#hardware-assembly)
   - [Data Collection](#data-collection)
   - [Data Processing](#data-processing)
   - [Training](#training)
   - [Inference](#inference)
-- [Citation](#citation)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+- [📝 Citation](#-citation)
+- [🙏 Acknowledgements](#-acknowledgements)
+- [📄 License](#-license)
 
 <!-- ## 🎥 Demo
 
@@ -58,7 +58,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 <!-- ## 🚀 FreeTacMan's Performance
 
 ### User Study
-![Perfoemance of User Study](figure/userstudy.png)
+![Performance of User Study](figure/userstudy.png)
 *Figure 1: User study results comparing FreeTacMan with ALOHA and UMI across different metrics. FreeTacMan demonstrates superior performance in completion rate, collection efficiency, and CPUT score per task, while also excelling in user experience evaluation including control accuracy, ease of collection procedure, and stability.*
 
 ### Policy Rollouts
@@ -203,8 +203,8 @@ After the data processing, the raw data will be processed to hdf5 files which ar
 If you find our work useful in your research, please consider citing our paper:
 
 ```bibtex
-@article{wu2024freetacman,
-  title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System},
+@article{wu2025freetacman,
+  title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System for Contact-rich Manipulation},
   author={Wu, Longyan and Yu, Checheng and Ren, Jieji and Chen, Li and Huang, Ran and Gu, Guoying and Li, Hongyang},
   journal={arXiv preprint arXiv:XXXX.XXXXX},
   year={2025}
@@ -217,7 +217,7 @@ We would like to thank:
 - Huijie Wang for developing the demonstration page
 - Zherui Qiu for helping organize and supervise the user study
 - Yixuan Pan, Qingwen Bu, Zhuoheng Li, Jisong Cai, Yuxiang Lu, and Ningbin Zhang for their valuable insights and constructive discussions
-- Zhirui Zhang, Xinyu Yang, Fengjie Shen, Huang Taoyuan, and Lekai Chen for their assistance during the experiments
+- Zhirui Zhang, Xinyu Yang, Fengjie Shen, Taoyuan Huang, and Lekai Chen for their assistance during the experiments
 - All user study participants for their valuable feedback
 
 ## 📄 License
