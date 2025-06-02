@@ -54,13 +54,13 @@ def get_args_parser():
 
 
 def build_diffusion_model_and_optimizer(args_override):
-    # 加载参数
+
     # parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
     # args = parser.parse_args()
     #
-    # # 加载的模型config 字典形式
+
     # for k, v in args_override.items():
-    #     # 设置 args的k键值对应的value为v
+
     #     setattr(args, k, v)
     args = argparse.Namespace(**args_override)
     model = build_diffusion_model(args)
@@ -81,7 +81,7 @@ def build_diffusion_model_and_optimizer(args_override):
         },
     ]
 
-    # 优化器
+
     optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
                                   weight_decay=args.weight_decay)
 
@@ -90,13 +90,12 @@ def build_diffusion_model_and_optimizer(args_override):
 
 def build_ACT_model_and_optimizer(args_override):
     
-    # 加载参数
+
     # parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
     # args = parser.parse_args()
-    #
-    # # 加载的模型config 字典形式
+
     # for k, v in args_override.items():
-    #     # 设置 args的k键值对应的value为v
+
     #     setattr(args, k, v)
     args = argparse.Namespace(**args_override)
     model = build_ACT_model(args)
@@ -110,7 +109,6 @@ def build_ACT_model_and_optimizer(args_override):
         },
     ]
 
-    # 优化器
     optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
                                   weight_decay=args.weight_decay)
 

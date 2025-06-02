@@ -621,7 +621,6 @@ class NatNetClient:
         marker_id = new_id & 0x0000ffff
         return model_id, marker_id
 
-    #标记点位置信息
     def __unpack_labeled_marker_data( self, data, packet_size, major, minor):
         labeled_marker_data = MoCapData.LabeledMarkerData()
         offset = 0

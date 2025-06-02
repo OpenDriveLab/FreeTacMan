@@ -70,13 +70,13 @@ class ACTPolicy(nn.Module):
         tactile_image_normalize = transforms.Normalize(mean=[0.6234687568296101, 0.4473433504166392, 0.5247292468417972], std=[0.16458128838663075, 0.17134032216538317, 0.21147269102429556])
 
         if self.backbone_name != 'vit':
-            image = normalize(image)  # 图像归一化
+            image = normalize(image)  
             if tactile_image is not None:
                 tactile_image = tactile_image_normalize(tactile_image)
             if depth_image is not None:
                 depth_image = depth_normalize(depth_image)
 
-        # 总共max个步 只取前model.num_queries个 
+
         if actions is not None:  # training time
             actions = actions[:, :self.model.num_queries]
             action_is_pad = action_is_pad[:, :self.model.num_queries]
@@ -124,7 +124,7 @@ class CNNMLPPolicy(nn.Module):
         self.optimizer = optimizer
         self.loss_function = args_override['loss_function']
 
-    # 而 __call__ 在对象被调用时执行
+
     def __call__(self, image, depth_image, robot_state, actions=None,
                  action_is_pad=None):
         env_state = None  # TODO
@@ -132,13 +132,13 @@ class CNNMLPPolicy(nn.Module):
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                          std=[0.229, 0.224, 0.225])
         depth_normalize = transforms.Normalize(mean=[0.5], std=[0.5])
-        image = normalize(image)  # 图像归一化
+        image = normalize(image)  
         if depth_image is not None:
             depth_image = depth_normalize(depth_image)
         if actions is not None:  # training time
-            actions = actions[:, 0]  # 动作
+            actions = actions[:, 0]  
             a_hat = self.model(image, depth_image, robot_state, actions, action_is_pad)
-            # 均方误差
+
             if self.loss_function == 'l1':
                 mse = F.l1_loss(actions, a_hat)
             elif self.loss_function == 'l2':

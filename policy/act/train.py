@@ -95,7 +95,7 @@ def train(args):
                          'dilation': args.dilation,
                          'position_embedding': args.position_embedding,
                          'loss_function': args.loss_function,
-                         'chunk_size': 1,     # 查询
+                         'chunk_size': 1,     
                          'camera_names': camera_names,
                          'use_depth_image': args.use_depth_image,
                          'use_tactile_image': args.use_tactile_image,
@@ -117,7 +117,7 @@ def train(args):
                          'dilation': args.dilation,
                          'position_embedding': args.position_embedding,
                          'loss_function': args.loss_function,
-                         'chunk_size': args.chunk_size,     # 查询
+                         'chunk_size': args.chunk_size,     
                          'camera_names': camera_names,
                          'use_depth_image': args.use_depth_image,
                          'use_tactile_image': args.use_tactile_image,

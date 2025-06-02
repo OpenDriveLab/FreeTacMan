@@ -25,21 +25,21 @@ class Transformer(nn.Module):
                  return_intermediate_dec=False):
         super().__init__()
 
-        # 编码层
+
         encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward,
                                                 dropout, activation, normalize_before)
-        # 归一化层
+
         encoder_norm = nn.LayerNorm(d_model) if normalize_before else None
         
-        # 构建多层编码层
+
         self.encoder = TransformerEncoder(encoder_layer, num_encoder_layers, encoder_norm)
 
-        # 解码层
+
         decoder_layer = TransformerDecoderLayer(d_model, nhead, dim_feedforward,
                                                 dropout, activation, normalize_before)
         decoder_norm = nn.LayerNorm(d_model)
         
-        # 构建多层解码层
+
         self.decoder = TransformerDecoder(decoder_layer, num_decoder_layers, decoder_norm,
                                           return_intermediate=return_intermediate_dec)
 

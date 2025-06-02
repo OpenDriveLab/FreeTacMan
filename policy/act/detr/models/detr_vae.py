@@ -153,7 +153,7 @@ class DETRVAE(nn.Module):
         bs, _ = robot_state.shape
 
         # Obtain latent z from action sequence
-        if is_training and self.kl_weight != 0:  # hidden_dim输入参数是512
+        if is_training and self.kl_weight != 0:  # hidden_dim 512
             action_embed = self.encoder_action_proj(actions)  # (bs, seq, hidden_dim)
             robot_state_embed = self.encoder_joint_proj(robot_state)  # (bs, hidden_dim)
             robot_state_embed = torch.unsqueeze(robot_state_embed, axis=1)  # (bs, 1, hidden_dim)
@@ -164,13 +164,13 @@ class DETRVAE(nn.Module):
             cls_joint_is_pad = torch.full((bs, 2), False).to(robot_state.device)  # False: not a padding
             is_pad = torch.cat([cls_joint_is_pad, action_is_pad], axis=1)  # (bs, seq+1)
 
-            # obtain position embedding  合并位置编码
+            # obtain position embedding 
             pos_embed = self.pos_table.clone().detach()
             pos_embed = pos_embed.permute(1, 0, 2)  # (seq+1, 1, hidden_dim)
             encoder_output = self.encoder(encoder_input, pos=pos_embed, src_key_padding_mask=is_pad)
             encoder_output = encoder_output[0]  # take cls output only
             
-            # 线性层  hidden_dim扩大到64
+            # 线性层  hidden_dim
             latent_info = self.latent_proj(encoder_output)
             mu = latent_info[:, :self.latent_dim]
             logvar = latent_info[:, self.latent_dim:]
@@ -579,7 +579,7 @@ def build(args):
     # From state
     # backbone = None # from state for now, no need for conv nets
     # From image
-    backbones = []   # 空的网络list
+    backbones = []   
     depth_backbones = None
     tactile_backbones = None
     if args.use_depth_image:
@@ -587,7 +587,7 @@ def build(args):
     if args.use_tactile_image:
         tactile_backbones = []
 
-    # backbone = build_backbone(args)  # 位置编码和主干网络组合成特征提取器
+    # backbone = build_backbone(args)  
     # backbones.append(backbone)
     # if args.use_depth_image:
     #     depth_backbones.append(DepthNet())
@@ -632,11 +632,11 @@ def build(args):
             tactile_backbones.append(backbone)
 
 
-    transformer = build_transformer(args)  # 构建trans层
+    transformer = build_transformer(args) 
 
     encoder = None
     if args.kl_weight != 0:
-        encoder = build_encoder(args)          # 构建编码成和解码层
+        encoder = build_encoder(args)  
 
     model = DETRVAE(
         backbones,
@@ -666,12 +666,12 @@ def build_cnnmlp(args):
     # From state
     # backbone = None # from state for now, no need for conv nets
     # From image
-    backbones = []   # 空的网络list
+    backbones = []   
     depth_backbones = None
     if args.use_depth_image:
         depth_backbones = []
 
-    # backbone = build_backbone(args)  # 位置编码和主干网络组合成特征提取器
+    # backbone = build_backbone(args)  
     # backbones.append(backbone)
     # if args.use_depth_image:
     #     depth_backbones.append(DepthNet())

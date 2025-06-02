@@ -352,7 +352,7 @@ def inference_process(args, config, ros_operator, policy, stats, t, pre_action):
         # cv2.imwrite(f"vis_attn_step_{t}.jpg", cv2.cvtColor(img_overlay, cv2.COLOR_RGB2BGR))
         
         # tac_attn = attn[N_vis:].reshape(H_vis, W_vis).numpy()
-        # tac_attn = cv2.resize(tac_attn, (W_img, H_img))  # 插值到原图大小
+        # tac_attn = cv2.resize(tac_attn, (W_img, H_img))  
         # tac = obs['tactile_images']['tactile']  # [H,W,3]，uint8
         # tac_overlay = (tac * 0.6 + (plt.cm.jet(tac_attn / tac_attn.max())[:, :, :3] * 255 * 0.4)).astype(np.uint8)
         # cv2.imwrite(f"tac_attn_step_{t}.jpg", cv2.cvtColor(tac_overlay, cv2.COLOR_RGB2BGR))
@@ -431,12 +431,6 @@ def model_inference(args, config, ros_operator, save_episode=True):
     left1 = [0, 0, 0, 0, 0, 0, 0.0] # puppet left
     # right1 = [0.0034713560000000005, 1.2548864720000001, -0.8694089600000001, -0.06735128400000001, 1.214782716, -0.08769098800000001, -0.00539] # puppet right
     right1 = [0, 0, 0, 0, 0, 0, 0.0]
-
-    ################## DP open cabinet
-    # right1 = [0.41106786000000006, 1.210334496, -0.784648564, 0.003645796, 1.135848616, 0.113490664, 0.02968]
- 
-    # ################## wly
-    # right1 = [0.063653156, 0.413824012, -0.4410889840000001, -0.75000478, 0.17339336, 0.733467868, -0.00532]
 
 
     ros_operator.puppet_arm_publish_continuous(left0, right0)
@@ -834,7 +828,6 @@ class RosOperator:
     def init_ros(self):
         rospy.init_node('joint_state_publisher', anonymous=True)
         
-        # 配置三个相机的话题
         camera_configs = {
             'front': {
                 'device': '/dev/video0',
