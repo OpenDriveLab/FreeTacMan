@@ -12,7 +12,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 <!-- We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information.  -->
 
-🚀 [Demo Page](https://freetacmanblog.github.io/) | 📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t)
+🚀 [Demo Page](https://freetacmanblog.github.io/) | 📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t)| 🌐 [X](https://x.com/OpenDriveLab)
 
 ✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
 
