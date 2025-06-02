@@ -1,4 +1,4 @@
-# FreeTacMan: Robot-free Visuo-Tactile Data Collection System
+# Robot-free Visuo-Tactile Data Collection System
 
 <!-- 
 FreeTacMan is a robot-free, human-centric visuo-tactile
