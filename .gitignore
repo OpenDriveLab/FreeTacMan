@@ -180,3 +180,5 @@ cython_debug/
 
 # Debuging log
 *.log
+
+*.DS_Store
