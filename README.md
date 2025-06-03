@@ -94,7 +94,7 @@ conda create -n freetacman python=3.8
 conda activate freetacman
 
 # Install PyTorch (adjust version according to your CUDA version)
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install torch torchvision torchaudio
 
 # Install other dependencies
 pip install -r requirements.txt
