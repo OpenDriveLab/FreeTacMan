@@ -11,7 +11,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 <!-- We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information.  -->
 
-🚀 [Website](http://opendrivelab.com/blog/freetacman) | 📄 [Paper](https://arxiv.org/abs/XXXX.XXXXX) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 🌐 [X](https://x.com/OpenDriveLab)
+🚀 [Website](http://opendrivelab.com/blog/freetacman) | 📄 [Paper](http://arxiv.org/abs/2506.01941) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 🌐 [X](https://x.com/OpenDriveLab)
 
 ✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
 
@@ -201,11 +201,14 @@ After the data processing, the raw data will be processed to hdf5 files which ar
 If you find our work useful in your research, please consider citing our paper:
 
 ```bibtex
-@article{wu2025freetacman,
-  title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System for Contact-rich Manipulation},
-  author={Wu, Longyan and Yu, Checheng and Ren, Jieji and Chen, Li and Huang, Ran and Gu, Guoying and Li, Hongyang},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2025}
+@misc{wu2025freetacman,
+      title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System for Contact-rich Manipulation}, 
+      author={Longyan Wu and Checheng Yu and Jieji Ren and Li Chen and Ran Huang and Guoying Gu and Hongyang Li},
+      year={2025},
+      eprint={2506.01941},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2506.01941}, 
 }
 ```
 
