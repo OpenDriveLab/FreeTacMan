@@ -97,7 +97,7 @@ conda activate freetacman
 pip install torch torchvision torchaudio
 
 # Install other dependencies
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ### Hardware Assembly
@@ -134,12 +134,12 @@ Before starting to process your collected raw data, you need to place your robot
 1. **Process the Marker Data to TCP Pose**
 ```bash
 # Process collected data
-python scripts/marker_to_eep.py
+python data_collection/marker_to_eep.py
 ```
 2. **Process the TCP Pose Data to Joint Data**
 ```bash
 # Process collected data
-python scripts/pose_to_joint.py
+python data_collection/pose_to_joint.py
 ```
 After the data processing, the raw data will be processed to hdf5 files which are available for pretrain and policy training, saved in ```dataset/processed/<task_name>```. 
 

@@ -29,7 +29,7 @@ def plot_coordinate_system(ax, translation, rotation_matrix, label, color='k'):
     
     ax.text(translation[0], translation[1], translation[2], label, fontsize=12, color=color)
 
-def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
+def load_marker_positions(file_path, group_size=5):
     valid_groups = []
     current_group = {'group_id': 0, 'markers': {}}
     reference_marker_ids = None
@@ -39,7 +39,6 @@ def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
     try:
         with open(file_path, 'r') as f:
             lines = f.readlines()
-            
             i = 0
             while i < len(lines):
                 if i + 2 < len(lines):
@@ -63,13 +62,11 @@ def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
                         if len(pos) != 3:
                             i += 1
                             continue
-                            
                         # offset of optitrack
                         pos[0] -= 0.01  
                         pos[1] -= 0.04  
                         pos[2] -= 0.01  
                         pos = pos / 2
-
                         current_group['markers'][marker_id] = {
                             'time': time,
                             'position': pos
@@ -93,18 +90,15 @@ def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
                                 'markers': {}
                             }
                         i += 3
-                        
                     except ValueError as e:
                         print(f"Warning: Error processing data near line {i+1}: {str(e)}")
                         i += 1
                         continue
                 else:
                     break
-            
             if reference_marker_ids is None:
                 print("Error: Could not find valid reference marker group")
                 return None, [], False
-            
 
             mismatch_ratio = mismatch_count / total_groups if total_groups > 0 else 1.0
             is_valid_data = mismatch_ratio <= 0.2
@@ -114,23 +108,6 @@ def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
             
             if not is_valid_data:
                 print(f"Warning: Mismatch ratio ({mismatch_ratio:0.15%}) exceeds threshold (15%), this data will be discarded")
-                
-
-                discarded_dir = "discarded_data"
-                if not os.path.exists(discarded_dir):
-                    os.makedirs(discarded_dir)
-                
-
-                filename = os.path.basename(file_path)
-                shutil.copy2(file_path, os.path.join(discarded_dir, filename))
-                
-
-                video_path = file_path.rsplit('.', 1)[0] + '.mp4'
-                if os.path.exists(video_path):
-                    shutil.copy2(video_path, os.path.join(discarded_dir, os.path.basename(video_path)))
-                camera_path = file_path.rsplit('.', 1)[0] + '_CameraTimestamps.txt'
-                if os.path.exists(camera_path):
-                    shutil.copy2(camera_path, os.path.join(discarded_dir, os.path.basename(camera_path)))
             return reference_marker_ids, valid_groups, is_valid_data
         
     except FileNotFoundError:
@@ -141,7 +118,6 @@ def load_marker_positions(file_path='dataset/test/test_0.txt', group_size=5):
         return None, [], False
 
 def load_camera_timestamps(camera_timestamp_file):
-
     try:
         with open(camera_timestamp_file, 'r') as f:
             timestamps = [float(line.strip()) for line in f.readlines() if line.strip()]
@@ -158,12 +134,13 @@ def interpolate_pose(pose_data, camera_timestamps):
     
     for col in columns_to_interpolate:
         if col in pose_data.columns:  
-            interpolators[col] = interp1d(pose_data['timestamp'], 
-                                        pose_data[col], 
-                                        kind='linear',
-                                        bounds_error=False,
-                                        fill_value=np.nan)
-    
+            interpolators[col] = interp1d(
+                pose_data['timestamp'], 
+                pose_data[col], 
+                kind='linear',
+                bounds_error=False,
+                fill_value=np.nan
+            )
 
     interpolated_data = []
     for cam_time in camera_timestamps:
@@ -211,92 +188,73 @@ def make_continuous_angles(angles):
     return angles
 
 def convert_euler_to_quaternion(file_path):
-
     df = pd.read_csv(file_path)
-    
-
     euler_angles = df[['TCP_euler_x', 'TCP_euler_y', 'TCP_euler_z']].values
-    
-
     r = Rotation.from_euler('xyz', euler_angles)
     quaternions = r.as_quat()  
-    
 
     df['quat_w'] = quaternions[:, 3]
     df['quat_x'] = quaternions[:, 0]
     df['quat_y'] = quaternions[:, 1]
     df['quat_z'] = quaternions[:, 2]
-    
 
     df.to_csv(file_path, index=False)
-    
     print(f"Euler angles have been converted to quaternions and saved to file: {file_path}")
 
-def copy_mp4_files(data_dir, processed_dir, task_name, sequence_num):
-    for camera_num in ['Camera1', 'Camera2']:
-
-        mp4_source = os.path.normpath(os.path.join(data_dir, f'{task_name}_{sequence_num}_{camera_num}.mp4'))
-        mp4_dest = os.path.normpath(os.path.join(processed_dir, f'{task_name}_{sequence_num}_{camera_num}.mp4'))
+def copy_mp4_files(data_dir, processed_dir, task_name, camera_names, sequence_num):
+    for camera_name in camera_names:
+        mp4_source = os.path.normpath(os.path.join(data_dir, f'{task_name}_{sequence_num}_{camera_name}.mp4'))
+        mp4_dest = os.path.normpath(os.path.join(processed_dir, f'{task_name}_{sequence_num}_{camera_name}.mp4'))
         
-        print(f"\nProcessing {camera_num} video file:")
+        print(f"\nProcessing {camera_name} video file:")
         print(f"Source file path: {mp4_source}")
         print(f"Target file path: {mp4_dest}")
         
         try:
-
             if not os.path.exists(mp4_source):
                 print(f"Error: Source video file not found: {mp4_source}")
                 continue
-            
 
             os.makedirs(os.path.dirname(mp4_dest), exist_ok=True)
-            
-
             shutil.copy2(mp4_source, mp4_dest)
-            print(f"Success: {camera_num} video file has been copied")
+            print(f"Success: {camera_name} video file has been copied")
             
         except Exception as e:
-            print(f"Error copying {camera_num} video: {str(e)}")
+            print(f"Error copying {camera_name} video: {str(e)}")
 
-def process_marker_data(task_name):
+def process_marker_data(task_name, camera_names):
     data_dir = f'dataset/raw/{task_name}'
-    processed_dir = f'dataset/processed_data/{task_name}' 
+    processed_dir = f'dataset/eep_data/{task_name}'
 
     os.makedirs(processed_dir, exist_ok=True)
     all_files = glob.glob(os.path.join(data_dir, f'{task_name}_*.txt'))
 
     marker_files = []
     timestamp_files = {}
+    selected_camera = camera_names[0] # TODO: we select the first camera by default
     
     for f in all_files:
-
         f = os.path.normpath(f)
         base_name = os.path.basename(f)
-        if 'Camera1Timestamps' in f:
-
-            base_name_no_ext = base_name.replace('_Camera1Timestamps.txt', '')
-
-            seq_num = base_name_no_ext[len(task_name)+1:]  
+        if f'{selected_camera}_timestamps' in f:
+            base_name_no_ext = base_name.replace(f'_{selected_camera}_timestamps.txt', '')
+            seq_num = base_name_no_ext[len(task_name)+1:]
             timestamp_files[seq_num] = f
-        elif 'Camera' not in f and f.endswith('.txt'):  
+        elif 'timestamps' not in f and f.endswith('.txt'):
             marker_files.append(f)
     
     print(f"Found {len(marker_files)} marker files")
-    print(f"Found {len(timestamp_files)} Camera1 timestamp files")
+    print(f"Found {len(timestamp_files)} timestamp files")
     
 
     for marker_file in marker_files:
-
         base_name = os.path.basename(marker_file)
-
         base_name_no_ext = base_name.rsplit('.', 1)[0]
-
         sequence_num = base_name_no_ext[len(task_name)+1:] 
         
         if sequence_num in timestamp_files:
             timestamp_file = timestamp_files[sequence_num]
-
-            output_dir = os.path.join("dataset", 'processed_data', task_name)
+            output_dir = os.path.join("dataset", 'eep_data', task_name)
             os.makedirs(output_dir, exist_ok=True)
             print(f"\nProcessing file: {marker_file}")
 
@@ -316,21 +274,17 @@ def process_marker_data(task_name):
                 continue
 
             try:
-
                 os.makedirs(processed_dir, exist_ok=True)
-
-                copy_mp4_files(data_dir, processed_dir, task_name, sequence_num)
+                copy_mp4_files(data_dir, processed_dir, task_name, camera_names, sequence_num)
             except Exception as e:
                 print(f"Error occurred during video copying process: {str(e)}")
             
-
             base_name = os.path.basename(marker_file)
             output_name = os.path.join(output_dir, f'local_coordinate_poses_{base_name.split(".")[0]}.csv')
 
             rx = np.pi / 2  
             ry = np.pi      
             rz = 0          
-            
             translation = [0.475, 0.01, 0]
             r_x = Rotation.from_euler('x', rx).as_matrix()  
             r_y = Rotation.from_euler('y', ry).as_matrix()  
@@ -457,11 +411,8 @@ def process_marker_data(task_name):
                             'variation': variation,
                             'ids': (id1, id2)
                         }
-                
 
                 sorted_pairs = sorted(point_pairs_stats.items(), key=lambda x: x[1]['variation'])
-                
-
                 selected_points = set()
                 for pair, stats in sorted_pairs:
                     selected_points.add(pair[0])
@@ -481,7 +432,6 @@ def process_marker_data(task_name):
                             stats = point_pairs_stats[(id2, id1)]
                         print(f"Points {id1}-{id2}: Average distance = {stats['mean']:.3f}, Variation coefficient = {stats['variation']:.3f}%")
 
-
                 initial_frame = valid_groups[0]
                 initial_positions = {}
                 for marker_id in selected_points[:3]:
@@ -490,10 +440,7 @@ def process_marker_data(task_name):
                     transformed_pos = transform_points(pos.reshape(1, 3), translation, rotation_matrix_xyz)[0]
                     initial_positions[marker_id] = transformed_pos
 
-
                 sorted_markers = sorted(initial_positions.items(), key=lambda x: x[1][1])
-                
-
                 origin_marker_id = sorted_markers[0][0]  
                 y_marker_id = sorted_markers[2][0]       
 
@@ -504,14 +451,11 @@ def process_marker_data(task_name):
                 print(f"Y-axis direction (maximum y): Marker {y_marker_id}")
                 print(f"Z-axis reference: Marker {z_ref_marker_id}")
 
-
                 def create_coordinate_system(positions_dict):
-
                     p_origin = positions_dict[origin_marker_id]
                     p_y = positions_dict[y_marker_id]
                     p_z_ref = positions_dict[z_ref_marker_id]
                     
-
                     y_axis = p_y - p_origin
                     y_axis = y_axis / np.linalg.norm(y_axis)
                     
@@ -530,13 +474,9 @@ def process_marker_data(task_name):
                     
                     return p_origin, rotation_matrix
 
-
                 ax7 = fig.add_subplot(247, projection='3d')
                 plot_coordinate_system(ax7, [0, 0, 0], np.eye(3), "Transformed Markers", color='k')
-                
-
                 colors = plt.cm.rainbow(np.linspace(0, 1, len(reference_ids)))
-                
 
                 for idx, marker_id in enumerate(reference_ids):
                     positions = []
@@ -549,12 +489,10 @@ def process_marker_data(task_name):
                     
                     positions = np.array(positions)
                     
-
                     ax7.scatter(positions[:, 0], positions[:, 1], positions[:, 2], 
                                color=colors[idx], alpha=0.5, s=2,
                                label=f'Marker {marker_id}')
                     
-
                     ax7.plot(positions[:, 0], positions[:, 1], positions[:, 2], 
                             color=colors[idx], alpha=0.3, linewidth=0.5)
                 
@@ -563,48 +501,32 @@ def process_marker_data(task_name):
                 ax7.set_xlim([-0.5, 1])
                 ax7.set_ylim([-0.5, 1])
                 ax7.set_zlim([-0.5, 1])
-
-
                 pose_data = []
-                
 
                 rigid_body_points = selected_points[:3] 
                 moving_points = [point for point in reference_ids if point not in rigid_body_points]
                 print(f"\nPoints in relative motion: {moving_points}")
-
 
                 for i in range(0, len(valid_groups)):
                     group = valid_groups[i]
                     positions_dict = {marker_id: group['markers'][marker_id]['position'] for marker_id in selected_points[:3]}
                     origin, rotation_matrix = create_coordinate_system(positions_dict)
                     
-
                     local_translation = np.array([0.039, 0.06, 0.042])
-                    
-
                     global_translation = rotation_matrix @ local_translation
-                    
-
                     new_origin = origin + global_translation
-                    
-
                     transformed_origin = transform_points(new_origin.reshape(1, 3), translation, rotation_matrix_xyz)[0]
                     transformed_rotation = rotation_matrix_xyz @ rotation_matrix
                     
-
                     euler_angles = Rotation.from_matrix(transformed_rotation).as_euler('xyz')
-                    
-
                     timestamp = group['markers'][origin_marker_id]['time']
                     
-
                     moving_points_positions = {}
                     for point_id in moving_points:
                         if point_id in group['markers']:
                             pos = group['markers'][point_id]['position']
                             transformed_pos = transform_points(pos.reshape(1, 3), translation, rotation_matrix_xyz)[0]
                             moving_points_positions[point_id] = transformed_pos
-                    
 
                     frame_data = {
                         'timestamp': timestamp,
@@ -616,7 +538,6 @@ def process_marker_data(task_name):
                         'TCP_euler_z': euler_angles[2]  
                     }
 
-
                     if len(moving_points) >= 2 and all(point_id in moving_points_positions for point_id in moving_points[:2]):
                         pos1 = moving_points_positions[moving_points[0]]
                         pos2 = moving_points_positions[moving_points[1]]
@@ -626,15 +547,11 @@ def process_marker_data(task_name):
                         frame_data['gripper_distance'] = np.nan
 
                     pose_data.append(frame_data)
-                    
 
                     if i % 100 == 0:
                         plot_coordinate_system(ax7, transformed_origin, transformed_rotation, "", color='k')
-                
 
                 original_df = pd.DataFrame(pose_data)
-                
-
                 out_of_range_timestamps = camera_timestamps[
                     (camera_timestamps < original_df['timestamp'].min()) |
                     (camera_timestamps > original_df['timestamp'].max())
@@ -644,51 +561,46 @@ def process_marker_data(task_name):
                     print(f"Warning: {len(out_of_range_timestamps)} timestamps are out of original data range")
                     print(f"Original data time range: [{original_df['timestamp'].min()}, {original_df['timestamp'].max()}]")
                     print(f"Out of range timestamps: {out_of_range_timestamps}")
-                    
                     valid_camera_timestamps = camera_timestamps.copy() 
-                    
                 else:
                     valid_camera_timestamps = camera_timestamps
 
-
                 aligned_df = interpolate_pose(original_df, valid_camera_timestamps)
-                
-
                 aligned_df = aligned_df.dropna()
                 
                 if len(aligned_df) == 0:
                     print(f"Warning: No valid data after interpolation for {marker_file}")
                     continue
-                
 
                 euler_angles = np.array([[d['TCP_euler_x'], d['TCP_euler_y'], d['TCP_euler_z']] for d in pose_data])
                 continuous_angles = make_continuous_angles(euler_angles)
-
 
                 for i in range(len(pose_data)):
                     pose_data[i]['TCP_euler_x'] = continuous_angles[i][0]
                     pose_data[i]['TCP_euler_y'] = continuous_angles[i][1]
                     pose_data[i]['TCP_euler_z'] = continuous_angles[i][2]
                 
-
-                aligned_output_name = os.path.join(output_dir, 
-                                                 f'aligned_local_coordinate_poses_{base_name.split(".")[0]}.csv')
+                aligned_output_name = os.path.join(
+                    output_dir, 
+                    f'aligned_local_coordinate_poses_{base_name.split(".")[0]}.csv'
+                )
                 aligned_df.to_csv(aligned_output_name, index=False, float_format='%.15f')
                 print(f"\nAligned pose data has been saved to {aligned_output_name}")
                 print(f"Original frame count: {len(original_df)}, Aligned frame count: {len(aligned_df)}")
                 
-
-                aligned_output_name_quat = os.path.join(output_dir, 
-                                                     f'aligned_local_coordinate_poses_quat_{base_name.split(".")[0]}.csv')
+                aligned_output_name_quat = os.path.join(
+                    output_dir, 
+                    f'aligned_local_coordinate_poses_{base_name.split(".")[0]}.csv'
+                )
                 convert_euler_to_quaternion(aligned_output_name_quat)
                 print(f"Euler angles converted to quaternions and saved to {aligned_output_name_quat}")
 
-def extract_frames(task_name):
-    input_folder = f'processed_data/{task_name}'
-    output_folder = f'Data_frame_extraction/{task_name}'
+def extract_frames(task_name, camera_names):
+    input_folder = f'dataset/eep_data/{task_name}'
+    output_folder = f'dataset/extracted_eep_data/{task_name}'
+    cam_num = len(camera_names)
 
     os.makedirs(output_folder, exist_ok=True)
-
     csv_files = sorted([f for f in os.listdir(input_folder) if f.endswith('.csv')])
     mp4_files = sorted([f for f in os.listdir(input_folder) if f.endswith('.mp4')])
 
@@ -697,25 +609,26 @@ def extract_frames(task_name):
         df = pd.read_csv(os.path.join(input_folder, csv_file))
         min_frames = min(min_frames, len(df))
 
-    for i in range(0, len(mp4_files), 2):  
+    for i in range(0, len(mp4_files), cam_num):  
         if i + 1 >= len(mp4_files):
             continue  
-        csv_file = csv_files[i//2]  
-        mp4_file1 = mp4_files[i]    
-        mp4_file2 = mp4_files[i+1]  
+        csv_file = csv_files[i//cam_num]  
+        cur_mp4_files = mp4_files[i:i+cam_num] 
     
         df = pd.read_csv(os.path.join(input_folder, csv_file))
         df = df.iloc[:min_frames]
         df.to_csv(os.path.join(output_folder, csv_file), index=False)
 
-        for mp4_file in [mp4_file1, mp4_file2]:
+        for mp4_file in cur_mp4_files:
             cap = cv2.VideoCapture(os.path.join(input_folder, mp4_file))
             fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-            out = cv2.VideoWriter(os.path.join(output_folder, mp4_file), 
-                                fourcc, 
-                                cap.get(cv2.CAP_PROP_FPS), 
-                                (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 
-                                 int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+            out = cv2.VideoWriter(
+                os.path.join(output_folder, mp4_file), 
+                fourcc, 
+                cap.get(cv2.CAP_PROP_FPS), 
+                (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 
+                    int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+            )
 
             frame_count = 0
             while cap.isOpened() and frame_count < min_frames:
@@ -735,11 +648,8 @@ def extract_frames(task_name):
     for mp4_file in mp4_files:
         video_path = os.path.join(output_folder, mp4_file)
         cap = cv2.VideoCapture(video_path)
-        
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        
         print(f"Video file {mp4_file} has {frame_count} frames.")
-        
         cap.release()
 
 if __name__ == "__main__":
@@ -748,7 +658,11 @@ if __name__ == "__main__":
             cfg = json.load(cfg)
     except FileNotFoundError:
         cfg = {}
+    
     task_name = cfg.get("task_name", "test")
+    camera_dict = cfg.get("camera_dict", { "0": "front", "3": "tactile" })
+    camera_names = list(camera_dict.values())
+    assert camera_names, "No cameras found in the camera_dict"
 
-    process_marker_data(task_name)
-    extract_frames(task_name)
+    process_marker_data(task_name, camera_names)
+    extract_frames(task_name, camera_names)

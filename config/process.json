@@ -1,9 +1,12 @@
 {
-  "task_name": "test",
-  "input_dir": "./dataset/raw/test",
-  "output_dir": "./dataset/processed/test",
+  "task_name": "industryinsertionadddddd",
+  "input_dir": "./dataset/raw/industryinsertionadddddd",
+  "output_dir": "./dataset/raw/industryinsertionadddddd",
   "qpos_mode": "joint",
-  "camera_names": ["front"],
+  "camera_dict": {
+      "0": "front",
+      "3": "tactile"
+  },
   "urdf_path": "./assets/piper_description.urdf",
   "start_qpos": [
       0, 0, 0, 0, 

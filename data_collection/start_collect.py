@@ -10,9 +10,10 @@ from NatNetClient import NatNetClient
 with open("config/collect.json", "r") as cfg_file:
     config = json.load(cfg_file)
 
-time_duration = config.get("time_duration", 8)
-camera_frame_rate = config.get("camera_frame_rate", 30)
-camera_indices = config.get("camera_indices", [0, 3])
+time_duration = config.get("time_duration", 8) # in seconds
+camera_frame_rate = config.get("camera_frame_rate", 30) # in frames per second
+camera_dict = config.get("camera_dict", { "0": "front", "3": "tactile" }) # e.g., { "0": "front", "2": "tactile_left", "4": "tactile_right" }, check the real indice by running test_collection.py
+camera_names = list(camera_dict.values())
 camera_width = config.get("camera_width", 640)
 camera_height = config.get("camera_height", 480)
 exposures = config.get("exposures", {})  # e.g., { "0": -5, "3": -6 }
@@ -20,7 +21,9 @@ task_name = config.get("task_name", "default_task")
 suffix = config.get("initial_suffix", 1)
 
 cameras = []
-for cam_idx in camera_indices:
+assert camera_names, "No camera names provided in the config file."
+for cam_idx, cam_name in camera_dict.items():
+    cam_idx = int(cam_idx)
     camera = cv2.VideoCapture(cam_idx)
     if camera.isOpened():
         camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)
@@ -59,11 +62,11 @@ def collect_data(suffix):
     frame_interval = 1.0 / camera_frame_rate
     targetime_duration_frames = int(time_duration * camera_frame_rate)
 
-    for i, cam in enumerate(cameras):
-        video_filename = os.path.join(data_dir, f"{task_name}_{suffix}_camera{i+1}.mp4")
+    for cam_id, cam_name in camera_dict.items():
+        video_filename = os.path.join(data_dir, f"{task_name}_{suffix}_{cam_name}.mp4")
         video_filenames.append(video_filename)
 
-        timestamps_txt = os.path.join(data_dir, f"{task_name}_{suffix}_camera{i+1}_timestamps.txt")
+        timestamps_txt = os.path.join(data_dir, f"{task_name}_{suffix}_{cam_name}_timestamps.txt")
         timestamps_files.append(timestamps_txt)
 
         writer = cv2.VideoWriter(
@@ -140,25 +143,31 @@ def collect_data(suffix):
         winsound.Beep(1000, 500)
     return True
 
-while True:
-    if not collect_data(suffix):
-        break
+# Start data collection
+if __name__ == "__main__":
+    cmd = input("Press 'Enter' to start data collection or 'q' to quit: ")
+    if cmd.lower() == 'q':
+        exit()
+    
+    while True:
+        if not collect_data(suffix):
+            break
 
+        natnet_client.shutdown()
+        user_input = input("Press 'Enter' to continue or 'q' to quit: ")
+        if user_input.lower() == 'q':
+            break
+        elif user_input != '':
+            print("Invalid input. Please press 'Enter' to continue or 'q' to quit.")
+            continue
+
+        suffix += 1
+        natnet_client = NatNetClient(task_name, suffix)
+        natnet_client.set_client_address('127.0.0.1')
+        natnet_client.set_server_address('127.0.0.1')
+        natnet_client.set_use_multicast(True)
+
+    # Release camera resources and shut down NatNet
+    for camera in cameras:
+        camera.release()
     natnet_client.shutdown()
-    user_input = input("Press 'Enter' to continue or 'q' to quit: ")
-    if user_input.lower() == 'q':
-        break
-    elif user_input != '':
-        print("Invalid input. Please press 'Enter' to continue or 'q' to quit.")
-        continue
-
-    suffix += 1
-    natnet_client = NatNetClient(task_name, suffix)
-    natnet_client.set_client_address('127.0.0.1')
-    natnet_client.set_server_address('127.0.0.1')
-    natnet_client.set_use_multicast(True)
-
-# Release camera resources and shut down NatNet
-for camera in cameras:
-    camera.release()
-natnet_client.shutdown()
