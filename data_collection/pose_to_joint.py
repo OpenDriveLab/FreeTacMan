@@ -70,8 +70,9 @@ def upsample_frames(frames: np.ndarray, frames_out: int) -> np.ndarray:
 
 # Core processing
 def process_file(csv_file: str, in_dir: str, out_dir: str, idx: int, qpos_mode: str = "joint", camera_names: List[str] = ["front", "tactile"]):
+    error_logs = []
     df = pd.read_csv(os.path.join(in_dir, csv_file))
-    name = csv_file.replace("poses_", "").replace(".csv", "")
+    name = csv_file.split("poses_")[1].split(".csv")[0]
     vid_names = [f"{name}_{cam_name}.mp4" for cam_name in camera_names]
     # find videos
     vids = [f for f in vid_names if os.path.exists(os.path.join(in_dir, f))]
@@ -80,30 +81,66 @@ def process_file(csv_file: str, in_dir: str, out_dir: str, idx: int, qpos_mode: 
 
     camera_frames = []
     for vid in vids:
-        frames, _ = video_to_array(os.path.join(in_dir, vid))
+        frames, frame_count = video_to_array(os.path.join(in_dir, vid))
         camera_frames.append(frames)
 
     # kinematics data
     xyz = df.iloc[:, 1:4].values
-    euler = df.iloc[:, 4:7].values
-    widths = df.iloc[:, 7].values
-    quats = R.from_euler('xyz', euler, degrees=False).as_quat()
+    euler_angles = df.iloc[:, 4:7].values
+    gripper_widths = df.iloc[:, 7].values
+    rotations = R.from_euler('xyz', euler_angles, degrees=False)
+    quaternions = rotations.as_quat()
 
-    joints, endposes = [], []
-    prev = None
-    for i, (pos, quat, gr) in enumerate(zip(xyz, quats, widths)):
-        if i == 0:
-            prev = np.array(START_QPOS)
-        full = cartesian_to_joints(pos.tolist(), quat.tolist(), prev)
-        # warn large jump
-        if prev is not None and np.linalg.norm(full - prev) > 0.5:
-            print(f"Large joint jump at {i}")
-        prev = full
-        j6 = np.append(full[1:7], gr)
-        joints.append(j6)
-        endposes.append(np.append(pos, quat))
-    joints = np.array(joints)
-    endposes = np.array(endposes)
+    initial_joint_angles = None
+    end_poses = []
+    new_joint_angles = []
+    new_poses = []
+    valid_indices = []
+    data_size = len(xyz)
+    if data_size != frame_count:
+        msg = f"Warning: Number of frames ({frame_count}) does not match data points ({data_size}) in {csv_file}"
+        error_logs.append(msg)
+        print(msg)
+        if data_size > frame_count:
+            frames = upsample_frames(frames, data_size)
+            tac_frames = upsample_frames(tac_frames, data_size)
+    
+    for i in range(data_size):
+        x, y, z = xyz[i]
+        qx, qy, qz, qw = quaternions[i]
+        roll, pitch, yaw = euler_angles[i]
+        end_pose = [x, y, z, qx, qy, qz, qw]
+        end_poses.append(end_pose)
+        direction, quaternion = [x, y, z], [qx, qy, qz, qw]
+        seven_dof_pose = [x, y, z, roll, pitch, yaw, gripper_widths[i]]
+        new_poses.append(seven_dof_pose)
+        
+        try:
+            if i == 0:
+                initial_joint_angles = np.array(START_QPOS)
+                full_joint_angles = cartesian_to_joints(direction, quaternion, initial_joint_angles)
+            else:
+                full_joint_angles = cartesian_to_joints(direction, quaternion, initial_joint_angles)
+            if initial_joint_angles is not None:
+                error = np.linalg.norm(np.array(full_joint_angles) - np.array(initial_joint_angles))
+                threshold = 0.5 
+                
+                # Warn if the error between current and previous joint angles is large
+                if error > threshold:
+                    log_msg = f"Warning: Large joint update error at frame {i}: error={error}"
+                    print(log_msg)
+                    error_logs.append(log_msg)
+            initial_joint_angles = full_joint_angles
+            six_dof_joint_angles = full_joint_angles[1:7]
+            # minus the real gap betweein gripper markers, 0.02m here
+            joint_angles = np.append(six_dof_joint_angles, gripper_widths[i])
+            new_joint_angles.append(joint_angles)
+            valid_indices.append(i)
+        except Exception as e:
+            error_msg = f"Exception at frame {i}: {str(e)}"
+            print(error_msg)
+            error_logs.append(error_msg)
+            continue
 
     # smoothing
     if SMOOTHING and UPSAMPLE_FACTOR > 1:
@@ -114,36 +151,62 @@ def process_file(csv_file: str, in_dir: str, out_dir: str, idx: int, qpos_mode: 
             camera_frames[i] = upsample_frames(frames, target)
 
     # save
-    out = os.path.join(out_dir, f"episode_{idx}.hdf5")
-    with h5py.File(out, 'w') as f:
-        f.attrs.update({
-            'compress': False,
-            'sim': False
-        })
-        obs = f.create_group('observations')
-        imgs = obs.create_group('images')
+    output_file = os.path.join(out_dir, f"episode_{idx}.hdf5")
+    with h5py.File(output_file, 'w') as f_out:
+        f_out.attrs['compress'] = False
+        f_out.attrs['sim'] = False
+        obs = f_out.create_group('observations')
+        images = obs.create_group('images')
         for i in range(len(camera_names)):
-            imgs.create_dataset(camera_names[i], data=camera_frames[i], dtype='uint8')
+            images.create_dataset(name=camera_names[i], dtype='uint8', data=camera_frames[i])
+        if qpos_mode == 'joint':
+            obs.create_dataset('qpos', data=new_joint_angles)
+            f_out.create_dataset('action', data=new_joint_angles)
+        else:
+            obs.create_dataset('qpos', data=new_poses)
+            f_out.create_dataset('action', data=new_poses)
+        obs.create_dataset('end_pose', data=np.array(end_poses))
+        print(f"Data saved to {output_file}")
 
-        data = joints if qpos_mode == 'joint' else endposes
-        obs.create_dataset('qpos', data=data)
-        f.create_dataset('action', data=data)
+    if error_logs:
+        log_file = os.path.join(out_dir, "../logs", f"episode_{idx}_error.log")
+        if not os.path.exists(os.path.dirname(log_file)):
+            os.makedirs(os.path.dirname(log_file))
+        with open(log_file, 'w') as lf:
+            for log in error_logs:
+                lf.write(log + "\n")
+        print(f"Error logs saved to {log_file}")
+    
+    print(f"Processed file: {csv_file}")
 
-    print(f"Saved: {out}")
+def process_file_wrapper(args):
+    return process_file(*args)
+
+def read_csv_ik_save_hdf5_parallel(input_dir, output_dir, use_multiprocessing=True, qpos_mode="joint", camera_names=["front", "tactile"]):
+    csv_files = sorted([f for f in os.listdir(input_dir) if f.endswith('.csv')])
+    if use_multiprocessing:
+        pool = Pool(cpu_count())
+        tasks = [(csv_file, input_dir, output_dir, idx, qpos_mode, camera_names) for idx, csv_file in enumerate(csv_files)]
+        for _ in tqdm(pool.imap_unordered(process_file_wrapper, tasks), total=len(tasks)):
+            pass
+        pool.close()
+        pool.join()
+    else:
+        idx = 0
+        for csv_file in tqdm(csv_files, desc="Processing CSV files"):
+            process_file(csv_file, input_dir, output_dir, idx, qpos_mode, camera_names)
+            idx += 1
 
 # Parallel entry
 if __name__ == '__main__':
     task_name = cfg.get("task_name", "test")
     camera_dict = cfg.get("camera_dict", { "0": "front", "3": "tactile" })
+    qpos_mode = cfg.get("qpos_mode", "joint")
     camera_names = list(camera_dict.values())
     assert camera_names, "No cameras found in the camera_dict"
     inp, out = os.path.join('dataset', 'extracted_eep_data', task_name), os.path.join('dataset', 'processed', task_name)
     os.makedirs(out, exist_ok=True)
-    pool = Pool(cpu_count()) if cfg.get('use_multiprocessing', True) else None
-    files = sorted([f for f in os.listdir(inp) if f.endswith('.csv')])
-    tasks = [(f, inp, out, i, cfg.get('qpos_mode','joint')) for i, f in enumerate(files)]
-    if pool:
-        list(tqdm(pool.imap_unordered(lambda args: process_file(*args), tasks), total=len(tasks)))
-        pool.close(); pool.join()
-    else:
-        for args in tqdm(tasks): process_file(*args)
+    use_multiprocessing = cfg.get("use_multiprocessing", True)
+    read_csv_ik_save_hdf5_parallel(inp, out, use_multiprocessing=use_multiprocessing, qpos_mode=qpos_mode, camera_names=camera_names)
+
+    print("Processing completed.")

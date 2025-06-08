@@ -1,11 +1,11 @@
 {
   "task_name": "industryinsertionadddddd",
-  "input_dir": "./dataset/raw/industryinsertionadddddd",
-  "output_dir": "./dataset/raw/industryinsertionadddddd",
+  "input_dir": "./dataset/extracted_eep_data/industryinsertionadddddd",
+  "output_dir": "./dataset/processed/industryinsertionadddddd",
   "qpos_mode": "joint",
   "camera_dict": {
-      "0": "front",
-      "3": "tactile"
+      "0": "camera1",
+      "3": "camera2"
   },
   "urdf_path": "./assets/piper_description.urdf",
   "start_qpos": [
@@ -16,5 +16,7 @@
     true, true, true, true,
     true, true, true, false, true
   ],
-  "upsample_factor": 2
+  "enable_smoothing": false,
+  "upsample_factor": 1,
+  "use_multiprocessing": true
 }
