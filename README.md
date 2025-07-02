@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> 🌟 Stay up to date at [opendrivelab.com](https://opendrivelab.com/#news)!
+
 # Robot-free Visuo-Tactile Data Collection System
 
 <!-- 
