@@ -14,9 +14,9 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 <!-- We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information.  -->
 
-🚀 [Website](http://opendrivelab.com/freetacman) | 📄 [Paper](http://arxiv.org/abs/2506.01941) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 📺 [Video](https://opendrivelab.github.io/FreeTacMan/landing/FreeTacMan_demo_video.mp4) | 🌐 [X](https://x.com/OpenDriveLab/status/1930234855729836112)
+🚀 [Website](http://opendrivelab.com/freetacman) | 📄 [Paper](http://arxiv.org/abs/2506.01941) | 📊 [Dataset](https://huggingface.co/datasets/OpenDriveLab/FreeTacMan)| 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 📺 [Video](https://opendrivelab.github.io/FreeTacMan/landing/FreeTacMan_demo_video.mp4) | 🌐 [X](https://x.com/OpenDriveLab/status/1930234855729836112)
 
-✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Ran Huang, Guoying Gu, Hongyang Li
+✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Yufei Jiang, Ran Huang, Guoying Gu, Hongyang Li
 
 📧 Primary Contact: Longyan Wu (im.longyanwu@gmail.com)
 
@@ -24,7 +24,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 ## 🦾 Highlight
 - **Data-collection System**: An in-situ, robot-free, real-time tactile data-collection system that leverages a handheld gripper with modular visuo-tactile sensors to excel at diverse contact-rich tasks efficiently.
-- **Dataset**: A large-scale, high-precision (sub-millimeter) visuo-tactile manipulation dataset with over 3000k visuo-tactile image pairs, more than 10k trajectories across 50 tasks.
+- **Visuo-tactile Dataset**: A large-scale, high-precision (sub-millimeter) visuo-tactile manipulation dataset with over 3000k visuo-tactile image pairs, more than 10k trajectories across 50 tasks.
 - **Policy Learning Enhanced by Tactile Pretraining**: Imitation policies trained with our visuo-tactile data outperform vision-only baselines by 50% on average.
 <!-- in a wide spectrum of contact-rich manipulation tasks. -->
 
