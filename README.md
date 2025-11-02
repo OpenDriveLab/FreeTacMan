@@ -14,7 +14,7 @@ motion control skills to robots efficiently by integrating visual and tactile da
 
 <!-- We introduce FreeTacMan, a human-centric and robot-free data collection system for accurate and efficient robot manipulation. Concretely, we design a wearable data collection device with dual visuo-tactile grippers, which can be worn by human fingers for intuitive and natural control. A high-precision optical tracking system is introduced to capture end-effector poses while synchronizing visual and tactile feedback simultaneously. FreeTacMan achieves multiple improvements in data collection performance compared to prior works, and enables effective policy learning for contact-rich manipulation tasks with the help of the visuo-tactile information.  -->
 
-🚀 [Website](http://opendrivelab.com/freetacman) | 📄 [Paper](http://arxiv.org/abs/2506.01941) | 📊 [Dataset](https://huggingface.co/datasets/OpenDriveLab/FreeTacMan)| 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 📺 [Video](https://opendrivelab.github.io/FreeTacMan/landing/FreeTacMan_demo_video.mp4) | 🌐 [X](https://x.com/OpenDriveLab/status/1930234855729836112)
+🚀 [Website](http://opendrivelab.com/freetacman) | 📄 [Paper](http://arxiv.org/abs/2506.01941) | 📊 [Dataset](https://huggingface.co/datasets/OpenDriveLab/FreeTacMan) | 🛠️ [Hardware Guide](https://docs.google.com/document/d/1Hhi2stn_goXUHdYi7461w10AJbzQDC0fdYaSxMdMVXM/edit?addon_store&tab=t.0#heading=h.rl14j3i7oz0t) | 📺 [Video](https://opendrivelab.github.io/FreeTacMan/landing/FreeTacMan_demo_video.mp4) | 🌐 [X](https://x.com/OpenDriveLab/status/1930234855729836112)
 
 ✒️ Longyan Wu*, Checheng Yu*, Jieji Ren*, Li Chen, Yufei Jiang, Ran Huang, Guoying Gu, Hongyang Li
 
@@ -223,6 +223,15 @@ We would like to thank:
 - Yixuan Pan, Qingwen Bu, Zhuoheng Li, Jisong Cai, Yuxiang Lu, and Ningbin Zhang for their valuable insights and constructive discussions
 - Zhirui Zhang, Xinyu Yang, Fengjie Shen, Taoyuan Huang, and Lekai Chen for their assistance during the experiments
 - All user study participants for their valuable feedback
+
+
+We would like to thank:
+- Huijie Wang for helping to develop the demonstration page
+- Zherui Qiu for assisting with the supervision of the user study
+- Yixuan Pan, Qingwen Bu, Zhuoheng Li, Jisong Cai, Yuxiang Lu, and Ningbin Zhang for their valuable insights and constructive discussions
+- JAKA for generous support in the collection of our dataset
+- Yingxin Wang, Zhirui Zhang, Xinyu Yang, Fengjie Shen, Taoyuan Huang, and Lekai Chen for their assistance during the data collection
+
 
 ## 📄 License
 
