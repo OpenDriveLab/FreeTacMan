@@ -1,7 +1,7 @@
 > [!IMPORTANT]
 > 🌟 Stay up to date at [opendrivelab.com](https://opendrivelab.com/#news)!
 
-# Robot-free Visuo-Tactile Data Collection System
+# Robot-free Visuo-Tactile Data Collection System and Dataset [ICRA 2026]
 
 <!-- 
 FreeTacMan is a robot-free, human-centric visuo-tactile
@@ -207,9 +207,9 @@ If you find our work useful in your research, please consider citing our paper:
 @misc{wu2025freetacman,
       title={FreeTacMan: Robot-free Visuo-Tactile Data Collection System for Contact-rich Manipulation}, 
       author={Longyan Wu and Checheng Yu and Jieji Ren and Li Chen and Ran Huang and Guoying Gu and Hongyang Li},
-      year={2025},
+      year={2026},
       eprint={2506.01941},
-      archivePrefix={arXiv},
+      archivePrefix={IEEE International Conference on Robotics and Automation},
       primaryClass={cs.RO},
       url={https://arxiv.org/abs/2506.01941}, 
 }
